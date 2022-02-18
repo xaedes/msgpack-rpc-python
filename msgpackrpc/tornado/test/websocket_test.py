@@ -4,18 +4,18 @@ import functools
 import sys
 import traceback
 
-from tornado.concurrent import Future
-from tornado import gen
-from tornado.httpclient import HTTPError, HTTPRequest
-from tornado.log import gen_log, app_log
-from tornado.template import DictLoader
-from tornado.testing import AsyncHTTPTestCase, gen_test, bind_unused_port, ExpectLog
-from tornado.test.util import unittest, skipBefore35, exec_test
-from tornado.web import Application, RequestHandler
+from msgpackrpc.tornado.concurrent import Future
+from msgpackrpc.tornado import gen
+from msgpackrpc.tornado.httpclient import HTTPError, HTTPRequest
+from msgpackrpc.tornado.log import gen_log, app_log
+from msgpackrpc.tornado.template import DictLoader
+from msgpackrpc.tornado.testing import AsyncHTTPTestCase, gen_test, bind_unused_port, ExpectLog
+from msgpackrpc.tornado.test.util import unittest, skipBefore35, exec_test
+from msgpackrpc.tornado.web import Application, RequestHandler
 
 try:
-    import tornado.websocket  # noqa
-    from tornado.util import _websocket_mask_python
+    import msgpackrpc.tornado.websocket  # noqa
+    from msgpackrpc.tornado.util import _websocket_mask_python
 except ImportError:
     # The unittest module presents misleading errors on ImportError
     # (it acts as if websocket_test could not be found, hiding the underlying
@@ -24,10 +24,10 @@ except ImportError:
     traceback.print_exc()
     raise
 
-from tornado.websocket import WebSocketHandler, websocket_connect, WebSocketError
+from msgpackrpc.tornado.websocket import WebSocketHandler, websocket_connect, WebSocketError
 
 try:
-    from tornado import speedups
+    from msgpackrpc.tornado import speedups
 except ImportError:
     speedups = None
 
@@ -562,7 +562,7 @@ class PythonMaskFunctionTest(MaskFunctionMixin, unittest.TestCase):
         return _websocket_mask_python(mask, data)
 
 
-@unittest.skipIf(speedups is None, "tornado.speedups module not present")
+@unittest.skipIf(speedups is None, "msgpackrpc.tornado.speedups module not present")
 class CythonMaskFunctionTest(MaskFunctionMixin, unittest.TestCase):
     def mask(self, mask, data):
         return speedups.websocket_mask(mask, data)

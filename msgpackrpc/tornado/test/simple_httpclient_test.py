@@ -11,20 +11,20 @@ import socket
 import ssl
 import sys
 
-from tornado.escape import to_unicode
-from tornado import gen
-from tornado.httpclient import AsyncHTTPClient
-from tornado.httputil import HTTPHeaders, ResponseStartLine
-from tornado.ioloop import IOLoop
-from tornado.log import gen_log
-from tornado.concurrent import Future
-from tornado.netutil import Resolver, bind_sockets
-from tornado.simple_httpclient import SimpleAsyncHTTPClient
-from tornado.test.httpclient_test import ChunkHandler, CountdownHandler, HelloWorldHandler, RedirectHandler
-from tornado.test import httpclient_test
-from tornado.testing import AsyncHTTPTestCase, AsyncHTTPSTestCase, AsyncTestCase, ExpectLog
-from tornado.test.util import skipOnTravis, skipIfNoIPv6, refusing_port, unittest, skipBefore35, exec_test
-from tornado.web import RequestHandler, Application, asynchronous, url, stream_request_body
+from msgpackrpc.tornado.escape import to_unicode
+from msgpackrpc.tornado import gen
+from msgpackrpc.tornado.httpclient import AsyncHTTPClient
+from msgpackrpc.tornado.httputil import HTTPHeaders, ResponseStartLine
+from msgpackrpc.tornado.ioloop import IOLoop
+from msgpackrpc.tornado.log import gen_log
+from msgpackrpc.tornado.concurrent import Future
+from msgpackrpc.tornado.netutil import Resolver, bind_sockets
+from msgpackrpc.tornado.simple_httpclient import SimpleAsyncHTTPClient
+from msgpackrpc.tornado.test.httpclient_test import ChunkHandler, CountdownHandler, HelloWorldHandler, RedirectHandler
+from msgpackrpc.tornado.test import httpclient_test
+from msgpackrpc.tornado.testing import AsyncHTTPTestCase, AsyncHTTPSTestCase, AsyncTestCase, ExpectLog
+from msgpackrpc.tornado.test.util import skipOnTravis, skipIfNoIPv6, refusing_port, unittest, skipBefore35, exec_test
+from msgpackrpc.tornado.web import RequestHandler, Application, asynchronous, url, stream_request_body
 
 
 class SimpleHTTPClientCommonTestCase(httpclient_test.HTTPClientCommonTestCase):

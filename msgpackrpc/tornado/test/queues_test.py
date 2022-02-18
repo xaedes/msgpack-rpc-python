@@ -15,10 +15,10 @@ from __future__ import absolute_import, division, print_function
 from datetime import timedelta
 from random import random
 
-from tornado import gen, queues
-from tornado.gen import TimeoutError
-from tornado.testing import gen_test, AsyncTestCase
-from tornado.test.util import unittest, skipBefore35, exec_test
+from msgpackrpc.tornado import gen, queues
+from msgpackrpc.tornado.gen import TimeoutError
+from msgpackrpc.tornado.testing import gen_test, AsyncTestCase
+from msgpackrpc.tornado.test.util import unittest, skipBefore35, exec_test
 
 
 class QueueBasicTest(AsyncTestCase):

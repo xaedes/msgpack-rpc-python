@@ -2,9 +2,9 @@ from __future__ import absolute_import, division, print_function
 import pycares  # type: ignore
 import socket
 
-from tornado import gen
-from tornado.ioloop import IOLoop
-from tornado.netutil import Resolver, is_valid_ip
+from msgpackrpc.tornado import gen
+from msgpackrpc.tornado.ioloop import IOLoop
+from msgpackrpc.tornado.netutil import Resolver, is_valid_ip
 
 
 class CaresResolver(Resolver):

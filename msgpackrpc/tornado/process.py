@@ -29,13 +29,13 @@ import time
 
 from binascii import hexlify
 
-from tornado.concurrent import Future
-from tornado import ioloop
-from tornado.iostream import PipeIOStream
-from tornado.log import gen_log
-from tornado.platform.auto import set_close_exec
-from tornado import stack_context
-from tornado.util import errno_from_exception, PY3
+from msgpackrpc.tornado.concurrent import Future
+from msgpackrpc.tornado import ioloop
+from msgpackrpc.tornado.iostream import PipeIOStream
+from msgpackrpc.tornado.log import gen_log
+from msgpackrpc.tornado.platform.auto import set_close_exec
+from msgpackrpc.tornado import stack_context
+from msgpackrpc.tornado.util import errno_from_exception, PY3
 
 try:
     import multiprocessing
@@ -109,7 +109,7 @@ def fork_processes(num_processes, max_restarts=100):
     between any server code.
 
     Note that multiple processes are not compatible with the autoreload
-    module (or the ``autoreload=True`` option to `tornado.web.Application`
+    module (or the ``autoreload=True`` option to `msgpackrpc.tornado.web.Application`
     which defaults to True when ``debug=True``).
     When using multiple processes, no IOLoops can be created or
     referenced until after the call to ``fork_processes``.
@@ -198,7 +198,7 @@ class Subprocess(object):
     additions:
 
     * ``stdin``, ``stdout``, and ``stderr`` may have the value
-      ``tornado.process.Subprocess.STREAM``, which will make the corresponding
+      ``msgpackrpc.tornado.process.Subprocess.STREAM``, which will make the corresponding
       attribute of the resulting Subprocess a `.PipeIOStream`.
     * A new keyword argument ``io_loop`` may be used to pass in an IOLoop.
 

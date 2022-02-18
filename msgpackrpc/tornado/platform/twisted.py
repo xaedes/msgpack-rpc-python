@@ -42,15 +42,15 @@ import twisted.names.resolve  # type: ignore
 
 from zope.interface import implementer  # type: ignore
 
-from tornado.concurrent import Future
-from tornado.escape import utf8
-from tornado import gen
-import tornado.ioloop
-from tornado.log import app_log
-from tornado.netutil import Resolver
-from tornado.stack_context import NullContext, wrap
-from tornado.ioloop import IOLoop
-from tornado.util import timedelta_to_seconds
+from msgpackrpc.tornado.concurrent import Future
+from msgpackrpc.tornado.escape import utf8
+from msgpackrpc.tornado import gen
+import msgpackrpc.tornado.ioloop
+from msgpackrpc.tornado.log import app_log
+from msgpackrpc.tornado.netutil import Resolver
+from msgpackrpc.tornado.stack_context import NullContext, wrap
+from msgpackrpc.tornado.ioloop import IOLoop
+from msgpackrpc.tornado.util import timedelta_to_seconds
 
 
 @implementer(IDelayedCall)
@@ -127,7 +127,7 @@ class TornadoReactor(PosixReactorBase):
     """
     def __init__(self, io_loop=None):
         if not io_loop:
-            io_loop = tornado.ioloop.IOLoop.current()
+            io_loop = msgpackrpc.tornado.ioloop.IOLoop.current()
         self._io_loop = io_loop
         self._readers = {}  # map of reader objects to fd
         self._writers = {}  # map of writer objects to fd
@@ -351,7 +351,7 @@ def install(io_loop=None):
 
     """
     if not io_loop:
-        io_loop = tornado.ioloop.IOLoop.current()
+        io_loop = msgpackrpc.tornado.ioloop.IOLoop.current()
     reactor = TornadoReactor(io_loop)
     from twisted.internet.main import installReactor  # type: ignore
     installReactor(reactor)
@@ -373,22 +373,22 @@ class _FD(object):
 
     def doRead(self):
         if not self.lost:
-            self.handler(self.fileobj, tornado.ioloop.IOLoop.READ)
+            self.handler(self.fileobj, msgpackrpc.tornado.ioloop.IOLoop.READ)
 
     def doWrite(self):
         if not self.lost:
-            self.handler(self.fileobj, tornado.ioloop.IOLoop.WRITE)
+            self.handler(self.fileobj, msgpackrpc.tornado.ioloop.IOLoop.WRITE)
 
     def connectionLost(self, reason):
         if not self.lost:
-            self.handler(self.fileobj, tornado.ioloop.IOLoop.ERROR)
+            self.handler(self.fileobj, msgpackrpc.tornado.ioloop.IOLoop.ERROR)
             self.lost = True
 
     def logPrefix(self):
         return ''
 
 
-class TwistedIOLoop(tornado.ioloop.IOLoop):
+class TwistedIOLoop(msgpackrpc.tornado.ioloop.IOLoop):
     """IOLoop implementation that runs on Twisted.
 
     `TwistedIOLoop` implements the Tornado IOLoop interface on top of
@@ -433,16 +433,16 @@ class TwistedIOLoop(tornado.ioloop.IOLoop):
             raise ValueError('fd %s added twice' % fd)
         fd, fileobj = self.split_fd(fd)
         self.fds[fd] = _FD(fd, fileobj, wrap(handler))
-        if events & tornado.ioloop.IOLoop.READ:
+        if events & msgpackrpc.tornado.ioloop.IOLoop.READ:
             self.fds[fd].reading = True
             self.reactor.addReader(self.fds[fd])
-        if events & tornado.ioloop.IOLoop.WRITE:
+        if events & msgpackrpc.tornado.ioloop.IOLoop.WRITE:
             self.fds[fd].writing = True
             self.reactor.addWriter(self.fds[fd])
 
     def update_handler(self, fd, events):
         fd, fileobj = self.split_fd(fd)
-        if events & tornado.ioloop.IOLoop.READ:
+        if events & msgpackrpc.tornado.ioloop.IOLoop.READ:
             if not self.fds[fd].reading:
                 self.fds[fd].reading = True
                 self.reactor.addReader(self.fds[fd])
@@ -450,7 +450,7 @@ class TwistedIOLoop(tornado.ioloop.IOLoop):
             if self.fds[fd].reading:
                 self.fds[fd].reading = False
                 self.reactor.removeReader(self.fds[fd])
-        if events & tornado.ioloop.IOLoop.WRITE:
+        if events & msgpackrpc.tornado.ioloop.IOLoop.WRITE:
             if not self.fds[fd].writing:
                 self.fds[fd].writing = True
                 self.reactor.addWriter(self.fds[fd])
@@ -533,7 +533,7 @@ class TwistedResolver(Resolver):
         self.io_loop = io_loop or IOLoop.current()
         # partial copy of twisted.names.client.createResolver, which doesn't
         # allow for a reactor to be passed in.
-        self.reactor = tornado.platform.twisted.TornadoReactor(io_loop)
+        self.reactor = msgpackrpc.tornado.platform.twisted.TornadoReactor(io_loop)
 
         host_resolver = twisted.names.hosts.Resolver('/etc/hosts')
         cache_resolver = twisted.names.cache.CacheResolver(reactor=self.reactor)

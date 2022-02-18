@@ -20,13 +20,13 @@ from contextlib import closing
 import os
 import socket
 
-from tornado.concurrent import Future
-from tornado.netutil import bind_sockets, Resolver
-from tornado.queues import Queue
-from tornado.tcpclient import TCPClient, _Connector
-from tornado.tcpserver import TCPServer
-from tornado.testing import AsyncTestCase, gen_test
-from tornado.test.util import skipIfNoIPv6, unittest, refusing_port, skipIfNonUnix
+from msgpackrpc.tornado.concurrent import Future
+from msgpackrpc.tornado.netutil import bind_sockets, Resolver
+from msgpackrpc.tornado.queues import Queue
+from msgpackrpc.tornado.tcpclient import TCPClient, _Connector
+from msgpackrpc.tornado.tcpserver import TCPServer
+from msgpackrpc.tornado.testing import AsyncTestCase, gen_test
+from msgpackrpc.tornado.test.util import skipIfNoIPv6, unittest, refusing_port, skipIfNonUnix
 
 # Fake address families for testing.  Used in place of AF_INET
 # and AF_INET6 because some installations do not have AF_INET6.

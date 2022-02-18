@@ -13,11 +13,11 @@
 
 from __future__ import absolute_import, division, print_function
 
-from tornado.httputil import HTTPHeaders, HTTPMessageDelegate, HTTPServerConnectionDelegate, ResponseStartLine
-from tornado.routing import HostMatches, PathMatches, ReversibleRouter, Router, Rule, RuleRouter
-from tornado.testing import AsyncHTTPTestCase
-from tornado.web import Application, HTTPError, RequestHandler
-from tornado.wsgi import WSGIContainer
+from msgpackrpc.tornado.httputil import HTTPHeaders, HTTPMessageDelegate, HTTPServerConnectionDelegate, ResponseStartLine
+from msgpackrpc.tornado.routing import HostMatches, PathMatches, ReversibleRouter, Router, Rule, RuleRouter
+from msgpackrpc.tornado.testing import AsyncHTTPTestCase
+from msgpackrpc.tornado.web import Application, HTTPError, RequestHandler
+from msgpackrpc.tornado.wsgi import WSGIContainer
 
 
 class BasicRouter(Router):
@@ -174,7 +174,7 @@ class RuleRouterTest(AsyncHTTPTestCase):
 
         app.add_handlers(".*", [
             (HostMatches("www.example.com"), [
-                (PathMatches("/first_handler"), "tornado.test.routing_test.SecondHandler", {}, "second_handler")
+                (PathMatches("/first_handler"), "msgpackrpc.tornado.test.routing_test.SecondHandler", {}, "second_handler")
             ]),
             Rule(PathMatches("/first_handler"), FirstHandler, name="first_handler"),
             Rule(PathMatches("/request_callable"), request_callable),

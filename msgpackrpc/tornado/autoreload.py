@@ -90,10 +90,10 @@ import types
 import subprocess
 import weakref
 
-from tornado import ioloop
-from tornado.log import gen_log
-from tornado import process
-from tornado.util import exec_in
+from msgpackrpc.tornado import ioloop
+from msgpackrpc.tornado.log import gen_log
+from msgpackrpc.tornado import process
+from msgpackrpc.tornado.util import exec_in
 
 try:
     import signal
@@ -122,7 +122,7 @@ def start(io_loop=None, check_time=500):
         return
     _io_loops[io_loop] = True
     if len(_io_loops) > 1:
-        gen_log.warning("tornado.autoreload started more than once in the same process")
+        gen_log.warning("msgpackrpc.tornado.autoreload started more than once in the same process")
     modify_times = {}
     callback = functools.partial(_reload_on_update, modify_times)
     scheduler = ioloop.PeriodicCallback(callback, check_time, io_loop=io_loop)
@@ -154,7 +154,7 @@ def add_reload_hook(fn):
 
     Note that for open file and socket handles it is generally
     preferable to set the ``FD_CLOEXEC`` flag (using `fcntl` or
-    ``tornado.platform.auto.set_close_exec``) instead
+    ``msgpackrpc.tornado.platform.auto.set_close_exec``) instead
     of using a reload hook to close them.
     """
     _reload_hooks.append(fn)
@@ -246,8 +246,8 @@ def _reload():
 
 _USAGE = """\
 Usage:
-  python -m tornado.autoreload -m module.to.run [args...]
-  python -m tornado.autoreload path/to/script.py [args...]
+  python -m msgpackrpc.tornado.autoreload -m module.to.run [args...]
+  python -m msgpackrpc.tornado.autoreload path/to/script.py [args...]
 """
 
 
@@ -256,11 +256,11 @@ def main():
 
     Scripts may be specified by filename or module name::
 
-        python -m tornado.autoreload -m tornado.test.runtests
-        python -m tornado.autoreload tornado/test/runtests.py
+        python -m msgpackrpc.tornado.autoreload -m msgpackrpc.tornado.test.runtests
+        python -m msgpackrpc.tornado.autoreload msgpackrpc.tornado/test/runtests.py
 
     Running a script with this wrapper is similar to calling
-    `tornado.autoreload.wait` at the end of the script, but this wrapper
+    `msgpackrpc.tornado.autoreload.wait` at the end of the script, but this wrapper
     can catch import-time problems like syntax errors that would otherwise
     prevent the script from reaching its call to `wait`.
     """

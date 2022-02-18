@@ -1,4 +1,4 @@
-"""``tornado.gen`` is a generator-based interface to make it easier to
+"""``msgpackrpc.tornado.gen`` is a generator-based interface to make it easier to
 work in an asynchronous environment.  Code using the ``gen`` module
 is technically asynchronous, but it is written as a single generator
 instead of a collection of separate functions.
@@ -63,7 +63,7 @@ Python 3.4, available via the `singledispatch
 <https://pypi.python.org/pypi/singledispatch>`_ package on older
 versions), additional types of objects may be yielded. Tornado includes
 support for ``asyncio.Future`` and Twisted's ``Deferred`` class when
-``tornado.platform.asyncio`` and ``tornado.platform.twisted`` are imported.
+``msgpackrpc.tornado.platform.asyncio`` and ``msgpackrpc.tornado.platform.twisted`` are imported.
 See the `convert_yielded` function to extend this mechanism.
 
 .. versionchanged:: 3.2
@@ -85,11 +85,11 @@ import textwrap
 import types
 import weakref
 
-from tornado.concurrent import Future, TracebackFuture, is_future, chain_future
-from tornado.ioloop import IOLoop
-from tornado.log import app_log
-from tornado import stack_context
-from tornado.util import PY3, raise_exc_info
+from msgpackrpc.tornado.concurrent import Future, TracebackFuture, is_future, chain_future
+from msgpackrpc.tornado.ioloop import IOLoop
+from msgpackrpc.tornado.log import app_log
+from msgpackrpc.tornado import stack_context
+from msgpackrpc.tornado.util import PY3, raise_exc_info
 
 try:
     try:
@@ -187,7 +187,7 @@ def engine(func):
     In most cases, functions decorated with `engine` should take
     a ``callback`` argument and invoke it with their result when
     they are finished.  One notable exception is the
-    `~tornado.web.RequestHandler` :ref:`HTTP verb methods <verbs>`,
+    `~msgpackrpc.tornado.web.RequestHandler` :ref:`HTTP verb methods <verbs>`,
     which use ``self.finish()`` in place of a callback argument.
     """
     func = _make_coroutine_wrapper(func, replace_callback=False)
@@ -974,7 +974,7 @@ moment.set_result(None)
 
 
 class Runner(object):
-    """Internal implementation of `tornado.gen.engine`.
+    """Internal implementation of `msgpackrpc.tornado.gen.engine`.
 
     Maintains information about pending callbacks and their results.
 
@@ -1266,7 +1266,7 @@ def convert_yielded(yielded):
 
         @convert_yielded.register(asyncio.Future)
         def _(asyncio_future):
-            return tornado.platform.asyncio.to_tornado_future(asyncio_future)
+            return msgpackrpc.tornado.platform.asyncio.to_tornado_future(asyncio_future)
 
     .. versionadded:: 4.1
     """
@@ -1295,9 +1295,9 @@ if singledispatch is not None:
         # to work unless the application also configures AsyncIOLoop,
         # but at least the error messages in that case are more
         # comprehensible than a stack overflow.
-        import tornado.platform.asyncio
+        import msgpackrpc.tornado.platform.asyncio
     except ImportError:
         pass
     else:
         # Reference the imported module to make pyflakes happy.
-        tornado
+        msgpackrpc.tornado

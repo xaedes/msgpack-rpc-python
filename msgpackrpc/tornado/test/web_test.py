@@ -1,18 +1,18 @@
 from __future__ import absolute_import, division, print_function
-from tornado.concurrent import Future
-from tornado import gen
-from tornado.escape import json_decode, utf8, to_unicode, recursive_unicode, native_str, to_basestring
-from tornado.httputil import format_timestamp
-from tornado.ioloop import IOLoop
-from tornado.iostream import IOStream
-from tornado import locale
-from tornado.log import app_log, gen_log
-from tornado.simple_httpclient import SimpleAsyncHTTPClient
-from tornado.template import DictLoader
-from tornado.testing import AsyncHTTPTestCase, AsyncTestCase, ExpectLog, gen_test
-from tornado.test.util import unittest, skipBefore35, exec_test
-from tornado.util import ObjectDict, unicode_type, timedelta_to_seconds, PY3
-from tornado.web import RequestHandler, authenticated, Application, asynchronous, url, HTTPError, StaticFileHandler, _create_signature_v1, create_signed_value, decode_signed_value, ErrorHandler, UIModule, MissingArgumentError, stream_request_body, Finish, removeslash, addslash, RedirectHandler as WebRedirectHandler, get_signature_key_version, GZipContentEncoding
+from msgpackrpc.tornado.concurrent import Future
+from msgpackrpc.tornado import gen
+from msgpackrpc.tornado.escape import json_decode, utf8, to_unicode, recursive_unicode, native_str, to_basestring
+from msgpackrpc.tornado.httputil import format_timestamp
+from msgpackrpc.tornado.ioloop import IOLoop
+from msgpackrpc.tornado.iostream import IOStream
+from msgpackrpc.tornado import locale
+from msgpackrpc.tornado.log import app_log, gen_log
+from msgpackrpc.tornado.simple_httpclient import SimpleAsyncHTTPClient
+from msgpackrpc.tornado.template import DictLoader
+from msgpackrpc.tornado.testing import AsyncHTTPTestCase, AsyncTestCase, ExpectLog, gen_test
+from msgpackrpc.tornado.test.util import unittest, skipBefore35, exec_test
+from msgpackrpc.tornado.util import ObjectDict, unicode_type, timedelta_to_seconds, PY3
+from msgpackrpc.tornado.web import RequestHandler, authenticated, Application, asynchronous, url, HTTPError, StaticFileHandler, _create_signature_v1, create_signed_value, decode_signed_value, ErrorHandler, UIModule, MissingArgumentError, stream_request_body, Finish, removeslash, addslash, RedirectHandler as WebRedirectHandler, get_signature_key_version, GZipContentEncoding
 
 import binascii
 import contextlib
@@ -1784,7 +1784,7 @@ class MultipleExceptionTest(SimpleHandlerTestCase):
 
         @asynchronous
         def get(self):
-            from tornado.ioloop import IOLoop
+            from msgpackrpc.tornado.ioloop import IOLoop
             IOLoop.current().add_callback(lambda: 1 / 0)
             IOLoop.current().add_callback(lambda: 1 / 0)
 
@@ -2057,8 +2057,8 @@ class HandlerByNameTest(WebTestCase):
     def get_handlers(self):
         # All three are equivalent.
         return [('/hello1', HelloHandler),
-                ('/hello2', 'tornado.test.web_test.HelloHandler'),
-                url('/hello3', 'tornado.test.web_test.HelloHandler'),
+                ('/hello2', 'msgpackrpc.tornado.test.web_test.HelloHandler'),
+                url('/hello3', 'msgpackrpc.tornado.test.web_test.HelloHandler'),
                 ]
 
     def test_handler_by_name(self):

@@ -17,7 +17,7 @@
 """HTTP utility code shared by clients and servers.
 
 This module also defines the `HTTPServerRequest` class which is exposed
-via `tornado.web.RequestHandler.request`.
+via `msgpackrpc.tornado.web.RequestHandler.request`.
 """
 
 from __future__ import absolute_import, division, print_function
@@ -31,9 +31,9 @@ import numbers
 import re
 import time
 
-from tornado.escape import native_str, parse_qs_bytes, utf8
-from tornado.log import gen_log
-from tornado.util import ObjectDict, PY3
+from msgpackrpc.tornado.escape import native_str, parse_qs_bytes, utf8
+from msgpackrpc.tornado.log import gen_log
+from msgpackrpc.tornado.util import ObjectDict, PY3
 
 if PY3:
     import http.cookies as Cookie
@@ -335,7 +335,7 @@ class HTTPServerRequest(object):
        sequentially on a single connection.
 
     .. versionchanged:: 4.0
-       Moved from ``tornado.httpserver.HTTPRequest``.
+       Moved from ``msgpackrpc.tornado.httpserver.HTTPRequest``.
     """
     def __init__(self, method=None, uri=None, version="HTTP/1.0", headers=None,
                  body=None, host=None, files=None, connection=None,

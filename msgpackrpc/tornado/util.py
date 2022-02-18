@@ -149,14 +149,14 @@ def import_object(name):
     import_object('x') is equivalent to 'import x'.
     import_object('x.y.z') is equivalent to 'from x.y import z'.
 
-    >>> import tornado.escape
-    >>> import_object('tornado.escape') is tornado.escape
+    >>> import msgpackrpc.tornado.escape
+    >>> import_object('msgpackrpc.tornado.escape') is msgpackrpc.tornado.escape
     True
-    >>> import_object('tornado.escape.utf8') is tornado.escape.utf8
+    >>> import_object('msgpackrpc.tornado.escape.utf8') is msgpackrpc.tornado.escape.utf8
     True
-    >>> import_object('tornado') is tornado
+    >>> import_object('msgpackrpc.tornado') is msgpackrpc.tornado
     True
-    >>> import_object('tornado.missing_module')
+    >>> import_object('msgpackrpc.tornado.missing_module')
     Traceback (most recent call last):
         ...
     ImportError: No module named missing_module
@@ -463,7 +463,7 @@ if (os.environ.get('TORNADO_NO_EXTENSION') or
     _websocket_mask = _websocket_mask_python
 else:
     try:
-        from tornado.speedups import websocket_mask as _websocket_mask
+        from msgpackrpc.tornado.speedups import websocket_mask as _websocket_mask
     except ImportError:
         if os.environ.get('TORNADO_EXTENSION') == '1':
             raise

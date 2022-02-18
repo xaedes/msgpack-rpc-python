@@ -26,14 +26,14 @@ import threading
 import time
 from io import BytesIO
 
-from tornado import httputil
-from tornado import ioloop
-from tornado import stack_context
+from msgpackrpc.tornado import httputil
+from msgpackrpc.tornado import ioloop
+from msgpackrpc.tornado import stack_context
 
-from tornado.escape import utf8, native_str
-from tornado.httpclient import HTTPResponse, HTTPError, AsyncHTTPClient, main
+from msgpackrpc.tornado.escape import utf8, native_str
+from msgpackrpc.tornado.httpclient import HTTPResponse, HTTPError, AsyncHTTPClient, main
 
-curl_log = logging.getLogger('tornado.curl_httpclient')
+curl_log = logging.getLogger('msgpackrpc.tornado.curl_httpclient')
 
 
 class CurlAsyncHTTPClient(AsyncHTTPClient):
@@ -155,10 +155,10 @@ class CurlAsyncHTTPClient(AsyncHTTPClient):
         # perspective.  This is because when socket_action is
         # called with SOCKET_TIMEOUT, libcurl decides internally which
         # timeouts need to be processed by using a monotonic clock
-        # (where available) while tornado uses python's time.time()
+        # (where available) while msgpackrpc.tornado uses python's time.time()
         # to decide when timeouts have occurred.  When those clocks
         # disagree on elapsed time (as they will whenever there is an
-        # NTP adjustment), tornado might call _handle_timeout before
+        # NTP adjustment), msgpackrpc.tornado might call _handle_timeout before
         # libcurl is ready.  After each timeout, resync the scheduled
         # timeout with libcurl's current state.
         new_timeout = self._multi.timeout()
@@ -319,7 +319,7 @@ class CurlAsyncHTTPClient(AsyncHTTPClient):
             # Upstream pycurl doesn't support py3, but ubuntu 12.10 includes
             # a fork/port.  That version has a bug in which it passes unicode
             # strings instead of bytes to the WRITEFUNCTION.  This means that
-            # if you use a WRITEFUNCTION (which tornado always does), you cannot
+            # if you use a WRITEFUNCTION (which msgpackrpc.tornado always does), you cannot
             # download arbitrary binary data.  This needs to be fixed in the
             # ported pycurl package, but in the meantime this lambda will
             # make it work for downloading (utf8) text.

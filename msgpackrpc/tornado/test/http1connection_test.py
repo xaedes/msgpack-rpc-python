@@ -2,12 +2,12 @@ from __future__ import absolute_import, division, print_function
 
 import socket
 
-from tornado.http1connection import HTTP1Connection
-from tornado.httputil import HTTPMessageDelegate
-from tornado.iostream import IOStream
-from tornado.locks import Event
-from tornado.netutil import add_accept_handler
-from tornado.testing import AsyncTestCase, bind_unused_port, gen_test
+from msgpackrpc.tornado.http1connection import HTTP1Connection
+from msgpackrpc.tornado.httputil import HTTPMessageDelegate
+from msgpackrpc.tornado.iostream import IOStream
+from msgpackrpc.tornado.locks import Event
+from msgpackrpc.tornado.netutil import add_accept_handler
+from msgpackrpc.tornado.testing import AsyncTestCase, bind_unused_port, gen_test
 
 
 class HTTP1ConnectionTest(AsyncTestCase):

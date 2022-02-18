@@ -5,8 +5,8 @@ import errno
 import socket
 import time
 
-from tornado.platform import interface
-from tornado.util import errno_from_exception
+from msgpackrpc.tornado.platform import interface
+from msgpackrpc.tornado.util import errno_from_exception
 
 
 def try_close(f):

@@ -28,15 +28,15 @@ from __future__ import absolute_import, division, print_function
 import os
 
 if 'APPENGINE_RUNTIME' in os.environ:
-    from tornado.platform.common import Waker
+    from msgpackrpc.tornado.platform.common import Waker
 
     def set_close_exec(fd):
         pass
 elif os.name == 'nt':
-    from tornado.platform.common import Waker
-    from tornado.platform.windows import set_close_exec
+    from msgpackrpc.tornado.platform.common import Waker
+    from msgpackrpc.tornado.platform.windows import set_close_exec
 else:
-    from tornado.platform.posix import set_close_exec, Waker
+    from msgpackrpc.tornado.platform.posix import set_close_exec, Waker
 
 try:
     # monotime monkey-patches the time module to have a monotonic function

@@ -24,10 +24,10 @@ import sys
 import socket
 import stat
 
-from tornado.concurrent import dummy_executor, run_on_executor
-from tornado.ioloop import IOLoop
-from tornado.platform.auto import set_close_exec
-from tornado.util import PY3, Configurable, errno_from_exception
+from msgpackrpc.tornado.concurrent import dummy_executor, run_on_executor
+from msgpackrpc.tornado.ioloop import IOLoop
+from msgpackrpc.tornado.platform.auto import set_close_exec
+from msgpackrpc.tornado.util import PY3, Configurable, errno_from_exception
 
 try:
     import ssl
@@ -307,15 +307,15 @@ class Resolver(Configurable):
     chosen with the `Resolver.configure <.Configurable.configure>`
     class method::
 
-        Resolver.configure('tornado.netutil.ThreadedResolver')
+        Resolver.configure('msgpackrpc.tornado.netutil.ThreadedResolver')
 
     The implementations of this interface included with Tornado are
 
-    * `tornado.netutil.BlockingResolver`
-    * `tornado.netutil.ThreadedResolver`
-    * `tornado.netutil.OverrideResolver`
-    * `tornado.platform.twisted.TwistedResolver`
-    * `tornado.platform.caresresolver.CaresResolver`
+    * `msgpackrpc.tornado.netutil.BlockingResolver`
+    * `msgpackrpc.tornado.netutil.ThreadedResolver`
+    * `msgpackrpc.tornado.netutil.OverrideResolver`
+    * `msgpackrpc.tornado.platform.twisted.TwistedResolver`
+    * `msgpackrpc.tornado.platform.caresresolver.CaresResolver`
     """
     @classmethod
     def configurable_base(cls):
@@ -414,7 +414,7 @@ class ThreadedResolver(ExecutorResolver):
 
     The thread pool size can be configured with::
 
-        Resolver.configure('tornado.netutil.ThreadedResolver',
+        Resolver.configure('msgpackrpc.tornado.netutil.ThreadedResolver',
                            num_threads=10)
 
     .. versionchanged:: 3.1
@@ -520,7 +520,7 @@ def ssl_wrap_socket(socket, ssl_options, server_hostname=None, **kwargs):
         if server_hostname is not None and getattr(ssl, 'HAS_SNI'):
             # Python doesn't have server-side SNI support so we can't
             # really unittest this, but it can be manually tested with
-            # python3.2 -m tornado.httpclient https://sni.velox.ch
+            # python3.2 -m msgpackrpc.tornado.httpclient https://sni.velox.ch
             return context.wrap_socket(socket, server_hostname=server_hostname,
                                        **kwargs)
         else:

@@ -18,7 +18,7 @@ from __future__ import absolute_import, division, print_function
 
 import select
 
-from tornado.ioloop import IOLoop, PollIOLoop
+from msgpackrpc.tornado.ioloop import IOLoop, PollIOLoop
 
 assert hasattr(select, 'kqueue'), 'kqueue not supported'
 

@@ -24,19 +24,19 @@ import collections
 import hashlib
 import os
 import struct
-import tornado.escape
-import tornado.web
+import msgpackrpc.tornado.escape
+import msgpackrpc.tornado.web
 import zlib
 
-from tornado.concurrent import TracebackFuture
-from tornado.escape import utf8, native_str, to_unicode
-from tornado import gen, httpclient, httputil
-from tornado.ioloop import IOLoop, PeriodicCallback
-from tornado.iostream import StreamClosedError
-from tornado.log import gen_log, app_log
-from tornado import simple_httpclient
-from tornado.tcpclient import TCPClient
-from tornado.util import _websocket_mask, PY3
+from msgpackrpc.tornado.concurrent import TracebackFuture
+from msgpackrpc.tornado.escape import utf8, native_str, to_unicode
+from msgpackrpc.tornado import gen, httpclient, httputil
+from msgpackrpc.tornado.ioloop import IOLoop, PeriodicCallback
+from msgpackrpc.tornado.iostream import StreamClosedError
+from msgpackrpc.tornado.log import gen_log, app_log
+from msgpackrpc.tornado import simple_httpclient
+from msgpackrpc.tornado.tcpclient import TCPClient
+from msgpackrpc.tornado.util import _websocket_mask, PY3
 
 if PY3:
     from urllib.parse import urlparse  # py2
@@ -57,7 +57,7 @@ class WebSocketClosedError(WebSocketError):
     pass
 
 
-class WebSocketHandler(tornado.web.RequestHandler):
+class WebSocketHandler(msgpackrpc.tornado.web.RequestHandler):
     """Subclass this class to create a basic WebSocket handler.
 
     Override `on_message` to handle incoming messages, and use
@@ -66,8 +66,8 @@ class WebSocketHandler(tornado.web.RequestHandler):
     connections.
 
     Custom upgrade response headers can be sent by overriding
-    `~tornado.web.RequestHandler.set_default_headers` or
-    `~tornado.web.RequestHandler.prepare`.
+    `~msgpackrpc.tornado.web.RequestHandler.set_default_headers` or
+    `~msgpackrpc.tornado.web.RequestHandler.prepare`.
 
     See http://dev.w3.org/html5/websockets/ for details on the
     JavaScript interface.  The protocol is specified at
@@ -78,7 +78,7 @@ class WebSocketHandler(tornado.web.RequestHandler):
 
     .. testcode::
 
-      class EchoWebSocket(tornado.websocket.WebSocketHandler):
+      class EchoWebSocket(msgpackrpc.tornado.websocket.WebSocketHandler):
           def open(self):
               print("WebSocket opened")
 
@@ -146,7 +146,7 @@ class WebSocketHandler(tornado.web.RequestHandler):
         self.stream = None
         self._on_close_called = False
 
-    @tornado.web.asynchronous
+    @msgpackrpc.tornado.web.asynchronous
     def get(self, *args, **kwargs):
         self.open_args = args
         self.open_kwargs = kwargs
@@ -248,7 +248,7 @@ class WebSocketHandler(tornado.web.RequestHandler):
         if self.ws_connection is None:
             raise WebSocketClosedError()
         if isinstance(message, dict):
-            message = tornado.escape.json_encode(message)
+            message = msgpackrpc.tornado.escape.json_encode(message)
         return self.ws_connection.write_message(message, binary=binary)
 
     def select_subprotocol(self, subprotocols):
@@ -291,9 +291,9 @@ class WebSocketHandler(tornado.web.RequestHandler):
     def open(self, *args, **kwargs):
         """Invoked when a new WebSocket is opened.
 
-        The arguments to `open` are extracted from the `tornado.web.URLSpec`
+        The arguments to `open` are extracted from the `msgpackrpc.tornado.web.URLSpec`
         regular expression, just like the arguments to
-        `tornado.web.RequestHandler.get`.
+        `msgpackrpc.tornado.web.RequestHandler.get`.
         """
         pass
 
@@ -524,7 +524,7 @@ class _PerMessageDeflateCompressor(object):
         self._max_wbits = max_wbits
 
         if compression_options is None or 'compression_level' not in compression_options:
-            self._compression_level = tornado.web.GZipContentEncoding.GZIP_LEVEL
+            self._compression_level = msgpackrpc.tornado.web.GZipContentEncoding.GZIP_LEVEL
         else:
             self._compression_level = compression_options['compression_level']
 
@@ -783,7 +783,7 @@ class WebSocketProtocol13(WebSocketProtocol):
             opcode = 0x2
         else:
             opcode = 0x1
-        message = tornado.escape.utf8(message)
+        message = msgpackrpc.tornado.escape.utf8(message)
         assert isinstance(message, bytes)
         self._message_bytes_out += len(message)
         flags = 0

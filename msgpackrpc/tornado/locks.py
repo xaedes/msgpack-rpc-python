@@ -16,8 +16,8 @@ from __future__ import absolute_import, division, print_function
 
 import collections
 
-from tornado import gen, ioloop
-from tornado.concurrent import Future
+from msgpackrpc.tornado import gen, ioloop
+from msgpackrpc.tornado.concurrent import Future
 
 __all__ = ['Condition', 'Event', 'Semaphore', 'BoundedSemaphore', 'Lock']
 
@@ -54,9 +54,9 @@ class Condition(_TimeoutGarbageCollector):
 
     .. testcode::
 
-        from tornado import gen
-        from tornado.ioloop import IOLoop
-        from tornado.locks import Condition
+        from msgpackrpc.tornado import gen
+        from msgpackrpc.tornado.ioloop import IOLoop
+        from msgpackrpc.tornado.locks import Condition
 
         condition = Condition()
 
@@ -99,7 +99,7 @@ class Condition(_TimeoutGarbageCollector):
         # Wait up to 1 second.
         yield condition.wait(timeout=datetime.timedelta(seconds=1))
 
-    The method raises `tornado.gen.TimeoutError` if there's no notification
+    The method raises `msgpackrpc.tornado.gen.TimeoutError` if there's no notification
     before the deadline.
     """
 
@@ -158,9 +158,9 @@ class Event(object):
 
     .. testcode::
 
-        from tornado import gen
-        from tornado.ioloop import IOLoop
-        from tornado.locks import Event
+        from msgpackrpc.tornado import gen
+        from msgpackrpc.tornado.ioloop import IOLoop
+        from msgpackrpc.tornado.locks import Event
 
         event = Event()
 
@@ -220,7 +220,7 @@ class Event(object):
     def wait(self, timeout=None):
         """Block until the internal flag is true.
 
-        Returns a Future, which raises `tornado.gen.TimeoutError` after a
+        Returns a Future, which raises `msgpackrpc.tornado.gen.TimeoutError` after a
         timeout.
         """
         if timeout is None:
@@ -262,9 +262,9 @@ class Semaphore(_TimeoutGarbageCollector):
 
        from collections import deque
 
-       from tornado import gen
-       from tornado.ioloop import IOLoop
-       from tornado.concurrent import Future
+       from msgpackrpc.tornado import gen
+       from msgpackrpc.tornado.ioloop import IOLoop
+       from msgpackrpc.tornado.concurrent import Future
 
        # Ensure reliable doctest output: resolve Futures one at a time.
        futures_q = deque([Future() for _ in range(3)])
@@ -282,9 +282,9 @@ class Semaphore(_TimeoutGarbageCollector):
 
     .. testcode:: semaphore
 
-        from tornado import gen
-        from tornado.ioloop import IOLoop
-        from tornado.locks import Semaphore
+        from msgpackrpc.tornado import gen
+        from msgpackrpc.tornado.ioloop import IOLoop
+        from msgpackrpc.tornado.locks import Semaphore
 
         sem = Semaphore(2)
 
@@ -442,7 +442,7 @@ class Lock(object):
 
     `acquire` supports the context manager protocol in all Python versions:
 
-    >>> from tornado import gen, locks
+    >>> from msgpackrpc.tornado import gen, locks
     >>> lock = locks.Lock()
     >>>
     >>> @gen.coroutine
@@ -480,7 +480,7 @@ class Lock(object):
     def acquire(self, timeout=None):
         """Attempt to lock. Returns a Future.
 
-        Returns a Future, which raises `tornado.gen.TimeoutError` after a
+        Returns a Future, which raises `msgpackrpc.tornado.gen.TimeoutError` after a
         timeout.
         """
         return self._block.acquire(timeout)

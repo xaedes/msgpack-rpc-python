@@ -18,26 +18,26 @@
 
 Typical applications have little direct interaction with the `HTTPServer`
 class except to start a server at the beginning of the process
-(and even that is often done indirectly via `tornado.web.Application.listen`).
+(and even that is often done indirectly via `msgpackrpc.tornado.web.Application.listen`).
 
 .. versionchanged:: 4.0
 
    The ``HTTPRequest`` class that used to live in this module has been moved
-   to `tornado.httputil.HTTPServerRequest`.  The old name remains as an alias.
+   to `msgpackrpc.tornado.httputil.HTTPServerRequest`.  The old name remains as an alias.
 """
 
 from __future__ import absolute_import, division, print_function
 
 import socket
 
-from tornado.escape import native_str
-from tornado.http1connection import HTTP1ServerConnection, HTTP1ConnectionParameters
-from tornado import gen
-from tornado import httputil
-from tornado import iostream
-from tornado import netutil
-from tornado.tcpserver import TCPServer
-from tornado.util import Configurable
+from msgpackrpc.tornado.escape import native_str
+from msgpackrpc.tornado.http1connection import HTTP1ServerConnection, HTTP1ConnectionParameters
+from msgpackrpc.tornado import gen
+from msgpackrpc.tornado import httputil
+from msgpackrpc.tornado import iostream
+from msgpackrpc.tornado import netutil
+from msgpackrpc.tornado.tcpserver import TCPServer
+from msgpackrpc.tornado.util import Configurable
 
 
 class HTTPServer(TCPServer, Configurable,
@@ -47,7 +47,7 @@ class HTTPServer(TCPServer, Configurable,
     A server is defined by a subclass of `.HTTPServerConnectionDelegate`,
     or, for backwards compatibility, a callback that takes an
     `.HTTPServerRequest` as an argument. The delegate is usually a
-    `tornado.web.Application`.
+    `msgpackrpc.tornado.web.Application`.
 
     `HTTPServer` supports keep-alive connections by default
     (automatically for HTTP/1.1, or for HTTP/1.0 when the client
@@ -80,18 +80,18 @@ class HTTPServer(TCPServer, Configurable,
        HTTPServer(applicaton, ssl_options=ssl_ctx)
 
     `HTTPServer` initialization follows one of three patterns (the
-    initialization methods are defined on `tornado.tcpserver.TCPServer`):
+    initialization methods are defined on `msgpackrpc.tornado.tcpserver.TCPServer`):
 
-    1. `~tornado.tcpserver.TCPServer.listen`: simple single-process::
+    1. `~msgpackrpc.tornado.tcpserver.TCPServer.listen`: simple single-process::
 
             server = HTTPServer(app)
             server.listen(8888)
             IOLoop.current().start()
 
-       In many cases, `tornado.web.Application.listen` can be used to avoid
+       In many cases, `msgpackrpc.tornado.web.Application.listen` can be used to avoid
        the need to explicitly create the `HTTPServer`.
 
-    2. `~tornado.tcpserver.TCPServer.bind`/`~tornado.tcpserver.TCPServer.start`:
+    2. `~msgpackrpc.tornado.tcpserver.TCPServer.bind`/`~msgpackrpc.tornado.tcpserver.TCPServer.start`:
        simple multi-process::
 
             server = HTTPServer(app)
@@ -103,20 +103,20 @@ class HTTPServer(TCPServer, Configurable,
        to the `HTTPServer` constructor.  `~.TCPServer.start` will always start
        the server on the default singleton `.IOLoop`.
 
-    3. `~tornado.tcpserver.TCPServer.add_sockets`: advanced multi-process::
+    3. `~msgpackrpc.tornado.tcpserver.TCPServer.add_sockets`: advanced multi-process::
 
-            sockets = tornado.netutil.bind_sockets(8888)
-            tornado.process.fork_processes(0)
+            sockets = msgpackrpc.tornado.netutil.bind_sockets(8888)
+            msgpackrpc.tornado.process.fork_processes(0)
             server = HTTPServer(app)
             server.add_sockets(sockets)
             IOLoop.current().start()
 
        The `~.TCPServer.add_sockets` interface is more complicated,
-       but it can be used with `tornado.process.fork_processes` to
+       but it can be used with `msgpackrpc.tornado.process.fork_processes` to
        give you more flexibility in when the fork happens.
        `~.TCPServer.add_sockets` can also be used in single-process
        servers if you want to create your listening sockets in some
-       way other than `tornado.netutil.bind_sockets`.
+       way other than `msgpackrpc.tornado.netutil.bind_sockets`.
 
     .. versionchanged:: 4.0
        Added ``decompress_request``, ``chunk_size``, ``max_header_size``,
@@ -130,7 +130,7 @@ class HTTPServer(TCPServer, Configurable,
        documentation) instead of one ``(request_conn)``.
 
     .. versionchanged:: 4.2
-       `HTTPServer` is now a subclass of `tornado.util.Configurable`.
+       `HTTPServer` is now a subclass of `msgpackrpc.tornado.util.Configurable`.
 
     .. versionchanged:: 4.5
        Added the ``trusted_downstream`` argument.

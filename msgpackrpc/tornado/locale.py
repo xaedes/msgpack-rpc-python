@@ -18,10 +18,10 @@
 
 To load a locale and generate a translated string::
 
-    user_locale = tornado.locale.get("es_LA")
+    user_locale = msgpackrpc.tornado.locale.get("es_LA")
     print(user_locale.translate("Sign out"))
 
-`tornado.locale.get()` returns the closest matching locale, not necessarily the
+`msgpackrpc.tornado.locale.get()` returns the closest matching locale, not necessarily the
 specific locale you requested. You can support pluralization with
 additional arguments to `~Locale.translate()`, e.g.::
 
@@ -49,11 +49,11 @@ import numbers
 import os
 import re
 
-from tornado import escape
-from tornado.log import gen_log
-from tornado.util import PY3
+from msgpackrpc.tornado import escape
+from msgpackrpc.tornado.log import gen_log
+from msgpackrpc.tornado.util import PY3
 
-from tornado._locale_data import LOCALE_NAMES
+from msgpackrpc.tornado._locale_data import LOCALE_NAMES
 
 _default_locale = "en_US"
 _translations = {}  # type: dict

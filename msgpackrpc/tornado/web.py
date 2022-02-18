@@ -14,7 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-"""``tornado.web`` provides a simple web framework with asynchronous
+"""``msgpackrpc.tornado.web`` provides a simple web framework with asynchronous
 features that allow it to scale to large numbers of open connections,
 making it ideal for `long polling
 <http://en.wikipedia.org/wiki/Push_technology#Long_polling>`_.
@@ -23,19 +23,19 @@ Here is a simple "Hello, world" example app:
 
 .. testcode::
 
-    import tornado.ioloop
-    import tornado.web
+    import msgpackrpc.tornado.ioloop
+    import msgpackrpc.tornado.web
 
-    class MainHandler(tornado.web.RequestHandler):
+    class MainHandler(msgpackrpc.tornado.web.RequestHandler):
         def get(self):
             self.write("Hello, world")
 
     if __name__ == "__main__":
-        application = tornado.web.Application([
+        application = msgpackrpc.tornado.web.Application([
             (r"/", MainHandler),
         ])
         application.listen(8888)
-        tornado.ioloop.IOLoop.current().start()
+        msgpackrpc.tornado.ioloop.IOLoop.current().start()
 
 .. testoutput::
    :hide:
@@ -74,26 +74,26 @@ import stat
 import sys
 import threading
 import time
-import tornado
+import msgpackrpc.tornado
 import traceback
 import types
 from inspect import isclass
 from io import BytesIO
 
-from tornado.concurrent import Future
-from tornado import escape
-from tornado import gen
-from tornado import httputil
-from tornado import iostream
-from tornado import locale
-from tornado.log import access_log, app_log, gen_log
-from tornado import stack_context
-from tornado import template
-from tornado.escape import utf8, _unicode
-from tornado.routing import (AnyMatches, DefaultHostMatches, HostMatches,
+from msgpackrpc.tornado.concurrent import Future
+from msgpackrpc.tornado import escape
+from msgpackrpc.tornado import gen
+from msgpackrpc.tornado import httputil
+from msgpackrpc.tornado import iostream
+from msgpackrpc.tornado import locale
+from msgpackrpc.tornado.log import access_log, app_log, gen_log
+from msgpackrpc.tornado import stack_context
+from msgpackrpc.tornado import template
+from msgpackrpc.tornado.escape import utf8, _unicode
+from msgpackrpc.tornado.routing import (AnyMatches, DefaultHostMatches, HostMatches,
                              ReversibleRouter, Rule, ReversibleRuleRouter,
                              URLSpec)
-from tornado.util import (ObjectDict, raise_exc_info,
+from msgpackrpc.tornado.util import (ObjectDict, raise_exc_info,
                           unicode_type, _websocket_mask, PY3)
 
 url = URLSpec
@@ -287,7 +287,7 @@ class RequestHandler(object):
     def clear(self):
         """Resets all headers and content for this response."""
         self._headers = httputil.HTTPHeaders({
-            "Server": "TornadoServer/%s" % tornado.version,
+            "Server": "TornadoServer/%s" % msgpackrpc.tornado.version,
             "Content-Type": "text/html; charset=UTF-8",
             "Date": httputil.format_timestamp(time.time()),
         })
@@ -870,7 +870,7 @@ class RequestHandler(object):
         May be overridden by subclasses to add or modify values.
 
         The results of this method will be combined with additional
-        defaults in the `tornado.template` module and keyword arguments
+        defaults in the `msgpackrpc.tornado.template` module and keyword arguments
         to `render` or `render_string`.
         """
         namespace = dict(
@@ -1093,8 +1093,8 @@ class RequestHandler(object):
 
         If None is returned, we fall back to `get_browser_locale()`.
 
-        This method should return a `tornado.locale.Locale` object,
-        most likely obtained via a call like ``tornado.locale.get("en")``
+        This method should return a `msgpackrpc.tornado.locale.Locale` object,
+        most likely obtained via a call like ``msgpackrpc.tornado.locale.get("en")``
         """
         return None
 
@@ -1174,7 +1174,7 @@ class RequestHandler(object):
 
         By default, we use the ``login_url`` application setting.
         """
-        self.require_setting("login_url", "@tornado.web.authenticated")
+        self.require_setting("login_url", "@msgpackrpc.tornado.web.authenticated")
         return self.application.settings["login_url"]
 
     def get_template_path(self):
@@ -1400,7 +1400,7 @@ class RequestHandler(object):
         By default uses a hash of the content written so far.
 
         May be overridden to provide custom etag implementations,
-        or may return None to disable tornado's default etag support.
+        or may return None to disable msgpackrpc.tornado's default etag support.
         """
         hasher = hashlib.sha1()
         for part in self._write_buffer:
@@ -1574,9 +1574,9 @@ class RequestHandler(object):
         """Override to customize logging of uncaught exceptions.
 
         By default logs instances of `HTTPError` as warnings without
-        stack traces (on the ``tornado.general`` logger), and all
+        stack traces (on the ``msgpackrpc.tornado.general`` logger), and all
         other exceptions as errors with stack traces (on the
-        ``tornado.application`` logger).
+        ``msgpackrpc.tornado.application`` logger).
 
         .. versionadded:: 3.1
         """
@@ -1660,7 +1660,7 @@ def asynchronous(method):
        is an error. Such return values were previously ignored silently.
     """
     # Delay the IOLoop import because it's not available on app engine.
-    from tornado.ioloop import IOLoop
+    from msgpackrpc.tornado.ioloop import IOLoop
 
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
@@ -1869,7 +1869,7 @@ class Application(ReversibleRouter):
     ``static_handler_class`` setting.
 
     .. versionchanged:: 4.5
-       Integration with the new `tornado.routing` module.
+       Integration with the new `msgpackrpc.tornado.routing` module.
     """
     def __init__(self, handlers=None, default_host=None, transforms=None,
                  **settings):
@@ -1915,7 +1915,7 @@ class Application(ReversibleRouter):
 
         # Automatically reload modified modules
         if self.settings.get('autoreload'):
-            from tornado import autoreload
+            from msgpackrpc.tornado import autoreload
             autoreload.start()
 
     def listen(self, port, address="", **kwargs):
@@ -1939,7 +1939,7 @@ class Application(ReversibleRouter):
         """
         # import is here rather than top level because HTTPServer
         # is not importable on appengine
-        from tornado.httpserver import HTTPServer
+        from msgpackrpc.tornado.httpserver import HTTPServer
         server = HTTPServer(self, **kwargs)
         server.listen(port, address)
         return server
@@ -2757,13 +2757,13 @@ class FallbackHandler(RequestHandler):
 
     The fallback is a callable object that accepts an
     `~.httputil.HTTPServerRequest`, such as an `Application` or
-    `tornado.wsgi.WSGIContainer`.  This is most useful to use both
+    `msgpackrpc.tornado.wsgi.WSGIContainer`.  This is most useful to use both
     Tornado ``RequestHandlers`` and WSGI in the same server.  Typical
     usage::
 
-        wsgi_app = tornado.wsgi.WSGIContainer(
+        wsgi_app = msgpackrpc.tornado.wsgi.WSGIContainer(
             django.core.handlers.wsgi.WSGIHandler())
-        application = tornado.web.Application([
+        application = msgpackrpc.tornado.web.Application([
             (r"/foo", FooHandler),
             (r".*", FallbackHandler, dict(fallback=wsgi_app),
         ])

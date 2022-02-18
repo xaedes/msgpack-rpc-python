@@ -7,12 +7,12 @@ import logging
 import operator
 import textwrap
 import sys
-from tornado.httpclient import AsyncHTTPClient
-from tornado.httpserver import HTTPServer
-from tornado.ioloop import IOLoop
-from tornado.netutil import Resolver
-from tornado.options import define, options, add_parse_callback
-from tornado.test.util import unittest
+from msgpackrpc.tornado.httpclient import AsyncHTTPClient
+from msgpackrpc.tornado.httpserver import HTTPServer
+from msgpackrpc.tornado.ioloop import IOLoop
+from msgpackrpc.tornado.netutil import Resolver
+from msgpackrpc.tornado.options import define, options, add_parse_callback
+from msgpackrpc.tornado.test.util import unittest
 
 try:
     reduce  # py2
@@ -20,42 +20,42 @@ except NameError:
     from functools import reduce  # py3
 
 TEST_MODULES = [
-    'tornado.httputil.doctests',
-    'tornado.iostream.doctests',
-    'tornado.util.doctests',
-    'tornado.test.asyncio_test',
-    'tornado.test.auth_test',
-    'tornado.test.concurrent_test',
-    'tornado.test.curl_httpclient_test',
-    'tornado.test.escape_test',
-    'tornado.test.gen_test',
-    'tornado.test.http1connection_test',
-    'tornado.test.httpclient_test',
-    'tornado.test.httpserver_test',
-    'tornado.test.httputil_test',
-    'tornado.test.import_test',
-    'tornado.test.ioloop_test',
-    'tornado.test.iostream_test',
-    'tornado.test.locale_test',
-    'tornado.test.locks_test',
-    'tornado.test.netutil_test',
-    'tornado.test.log_test',
-    'tornado.test.options_test',
-    'tornado.test.process_test',
-    'tornado.test.queues_test',
-    'tornado.test.routing_test',
-    'tornado.test.simple_httpclient_test',
-    'tornado.test.stack_context_test',
-    'tornado.test.tcpclient_test',
-    'tornado.test.tcpserver_test',
-    'tornado.test.template_test',
-    'tornado.test.testing_test',
-    'tornado.test.twisted_test',
-    'tornado.test.util_test',
-    'tornado.test.web_test',
-    'tornado.test.websocket_test',
-    'tornado.test.windows_test',
-    'tornado.test.wsgi_test',
+    'msgpackrpc.tornado.httputil.doctests',
+    'msgpackrpc.tornado.iostream.doctests',
+    'msgpackrpc.tornado.util.doctests',
+    'msgpackrpc.tornado.test.asyncio_test',
+    'msgpackrpc.tornado.test.auth_test',
+    'msgpackrpc.tornado.test.concurrent_test',
+    'msgpackrpc.tornado.test.curl_httpclient_test',
+    'msgpackrpc.tornado.test.escape_test',
+    'msgpackrpc.tornado.test.gen_test',
+    'msgpackrpc.tornado.test.http1connection_test',
+    'msgpackrpc.tornado.test.httpclient_test',
+    'msgpackrpc.tornado.test.httpserver_test',
+    'msgpackrpc.tornado.test.httputil_test',
+    'msgpackrpc.tornado.test.import_test',
+    'msgpackrpc.tornado.test.ioloop_test',
+    'msgpackrpc.tornado.test.iostream_test',
+    'msgpackrpc.tornado.test.locale_test',
+    'msgpackrpc.tornado.test.locks_test',
+    'msgpackrpc.tornado.test.netutil_test',
+    'msgpackrpc.tornado.test.log_test',
+    'msgpackrpc.tornado.test.options_test',
+    'msgpackrpc.tornado.test.process_test',
+    'msgpackrpc.tornado.test.queues_test',
+    'msgpackrpc.tornado.test.routing_test',
+    'msgpackrpc.tornado.test.simple_httpclient_test',
+    'msgpackrpc.tornado.test.stack_context_test',
+    'msgpackrpc.tornado.test.tcpclient_test',
+    'msgpackrpc.tornado.test.tcpserver_test',
+    'msgpackrpc.tornado.test.template_test',
+    'msgpackrpc.tornado.test.testing_test',
+    'msgpackrpc.tornado.test.twisted_test',
+    'msgpackrpc.tornado.test.util_test',
+    'msgpackrpc.tornado.test.web_test',
+    'msgpackrpc.tornado.test.websocket_test',
+    'msgpackrpc.tornado.test.windows_test',
+    'msgpackrpc.tornado.test.wsgi_test',
 ]
 
 
@@ -152,7 +152,7 @@ def main():
     def configure_ioloop():
         kwargs = {}
         if options.ioloop_time_monotonic:
-            from tornado.platform.auto import monotonic_time
+            from msgpackrpc.tornado.platform.auto import monotonic_time
             if monotonic_time is None:
                 raise RuntimeError("monotonic clock not found")
             kwargs['time_func'] = monotonic_time
@@ -164,7 +164,7 @@ def main():
     add_parse_callback(
         lambda: logging.getLogger().handlers[0].addFilter(log_counter))
 
-    import tornado.testing
+    import msgpackrpc.tornado.testing
     kwargs = {}
     if sys.version_info >= (3, 2):
         # HACK:  unittest.main will make its own changes to the warning
@@ -175,7 +175,7 @@ def main():
         kwargs['warnings'] = False
     kwargs['testRunner'] = TornadoTextTestRunner
     try:
-        tornado.testing.main(**kwargs)
+        msgpackrpc.tornado.testing.main(**kwargs)
     finally:
         # The tests should run clean; consider it a failure if they logged
         # any warnings or errors. We'd like to ban info logs too, but

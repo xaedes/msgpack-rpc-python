@@ -22,10 +22,10 @@ loops.
 from __future__ import absolute_import, division, print_function
 import functools
 
-import tornado.concurrent
-from tornado.gen import convert_yielded
-from tornado.ioloop import IOLoop
-from tornado import stack_context
+import msgpackrpc.tornado.concurrent
+from msgpackrpc.tornado.gen import convert_yielded
+from msgpackrpc.tornado.ioloop import IOLoop
+from msgpackrpc.tornado import stack_context
 
 try:
     # Import the real asyncio module for py33+ first.  Older versions of the
@@ -198,8 +198,8 @@ def to_tornado_future(asyncio_future):
 
     .. versionadded:: 4.1
     """
-    tf = tornado.concurrent.Future()
-    tornado.concurrent.chain_future(asyncio_future, tf)
+    tf = msgpackrpc.tornado.concurrent.Future()
+    msgpackrpc.tornado.concurrent.chain_future(asyncio_future, tf)
     return tf
 
 
@@ -214,7 +214,7 @@ def to_asyncio_future(tornado_future):
     """
     tornado_future = convert_yielded(tornado_future)
     af = asyncio.Future()
-    tornado.concurrent.chain_future(tornado_future, af)
+    msgpackrpc.tornado.concurrent.chain_future(tornado_future, af)
     return af
 
 

@@ -34,15 +34,15 @@ import socket
 import sys
 import re
 
-from tornado.concurrent import TracebackFuture
-from tornado import ioloop
-from tornado.log import gen_log, app_log
-from tornado.netutil import ssl_wrap_socket, ssl_match_hostname, SSLCertificateError, _client_ssl_defaults, _server_ssl_defaults
-from tornado import stack_context
-from tornado.util import errno_from_exception
+from msgpackrpc.tornado.concurrent import TracebackFuture
+from msgpackrpc.tornado import ioloop
+from msgpackrpc.tornado.log import gen_log, app_log
+from msgpackrpc.tornado.netutil import ssl_wrap_socket, ssl_match_hostname, SSLCertificateError, _client_ssl_defaults, _server_ssl_defaults
+from msgpackrpc.tornado import stack_context
+from msgpackrpc.tornado.util import errno_from_exception
 
 try:
-    from tornado.platform.posix import _set_nonblocking
+    from msgpackrpc.tornado.platform.posix import _set_nonblocking
 except ImportError:
     _set_nonblocking = None
 
@@ -999,8 +999,8 @@ class IOStream(BaseIOStream):
 
     .. testcode::
 
-        import tornado.ioloop
-        import tornado.iostream
+        import msgpackrpc.tornado.ioloop
+        import msgpackrpc.tornado.iostream
         import socket
 
         def send_request():
@@ -1018,13 +1018,13 @@ class IOStream(BaseIOStream):
         def on_body(data):
             print(data)
             stream.close()
-            tornado.ioloop.IOLoop.current().stop()
+            msgpackrpc.tornado.ioloop.IOLoop.current().stop()
 
         if __name__ == '__main__':
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
-            stream = tornado.iostream.IOStream(s)
+            stream = msgpackrpc.tornado.iostream.IOStream(s)
             stream.connect(("friendfeed.com", 80), send_request)
-            tornado.ioloop.IOLoop.current().start()
+            msgpackrpc.tornado.ioloop.IOLoop.current().start()
 
     .. testoutput::
        :hide:

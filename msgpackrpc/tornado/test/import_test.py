@@ -1,6 +1,6 @@
 # flake8: noqa
 from __future__ import absolute_import, division, print_function
-from tornado.test.util import unittest
+from msgpackrpc.tornado.test.util import unittest
 
 
 class ImportTest(unittest.TestCase):
@@ -8,32 +8,32 @@ class ImportTest(unittest.TestCase):
         # Some of our modules are not otherwise tested.  Import them
         # all (unless they have external dependencies) here to at
         # least ensure that there are no syntax errors.
-        import tornado.auth
-        import tornado.autoreload
-        import tornado.concurrent
-        import tornado.escape
-        import tornado.gen
-        import tornado.http1connection
-        import tornado.httpclient
-        import tornado.httpserver
-        import tornado.httputil
-        import tornado.ioloop
-        import tornado.iostream
-        import tornado.locale
-        import tornado.log
-        import tornado.netutil
-        import tornado.options
-        import tornado.process
-        import tornado.simple_httpclient
-        import tornado.stack_context
-        import tornado.tcpserver
-        import tornado.tcpclient
-        import tornado.template
-        import tornado.testing
-        import tornado.util
-        import tornado.web
-        import tornado.websocket
-        import tornado.wsgi
+        import msgpackrpc.tornado.auth
+        import msgpackrpc.tornado.autoreload
+        import msgpackrpc.tornado.concurrent
+        import msgpackrpc.tornado.escape
+        import msgpackrpc.tornado.gen
+        import msgpackrpc.tornado.http1connection
+        import msgpackrpc.tornado.httpclient
+        import msgpackrpc.tornado.httpserver
+        import msgpackrpc.tornado.httputil
+        import msgpackrpc.tornado.ioloop
+        import msgpackrpc.tornado.iostream
+        import msgpackrpc.tornado.locale
+        import msgpackrpc.tornado.log
+        import msgpackrpc.tornado.netutil
+        import msgpackrpc.tornado.options
+        import msgpackrpc.tornado.process
+        import msgpackrpc.tornado.simple_httpclient
+        import msgpackrpc.tornado.stack_context
+        import msgpackrpc.tornado.tcpserver
+        import msgpackrpc.tornado.tcpclient
+        import msgpackrpc.tornado.template
+        import msgpackrpc.tornado.testing
+        import msgpackrpc.tornado.util
+        import msgpackrpc.tornado.web
+        import msgpackrpc.tornado.websocket
+        import msgpackrpc.tornado.wsgi
 
     # for modules with dependencies, if those dependencies can be loaded,
     # load them too.
@@ -44,4 +44,4 @@ class ImportTest(unittest.TestCase):
         except ImportError:
             pass
         else:
-            import tornado.curl_httpclient
+            import msgpackrpc.tornado.curl_httpclient

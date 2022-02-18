@@ -18,7 +18,7 @@
 authentication schemes.
 
 All the classes in this file are class mixins designed to be used with
-the `tornado.web.RequestHandler` class.  They are used in two ways:
+the `msgpackrpc.tornado.web.RequestHandler` class.  They are used in two ways:
 
 * On a login handler, use methods such as ``authenticate_redirect()``,
   ``authorize_redirect()``, and ``get_authenticated_user()`` to
@@ -36,9 +36,9 @@ Example usage for Google OAuth:
 
 .. testcode::
 
-    class GoogleOAuth2LoginHandler(tornado.web.RequestHandler,
-                                   tornado.auth.GoogleOAuth2Mixin):
-        @tornado.gen.coroutine
+    class GoogleOAuth2LoginHandler(msgpackrpc.tornado.web.RequestHandler,
+                                   msgpackrpc.tornado.auth.GoogleOAuth2Mixin):
+        @msgpackrpc.tornado.gen.coroutine
         def get(self):
             if self.get_argument('code', False):
                 user = yield self.get_authenticated_user(
@@ -75,14 +75,14 @@ import hmac
 import time
 import uuid
 
-from tornado.concurrent import TracebackFuture, return_future, chain_future
-from tornado import gen
-from tornado import httpclient
-from tornado import escape
-from tornado.httputil import url_concat
-from tornado.log import gen_log
-from tornado.stack_context import ExceptionStackContext
-from tornado.util import unicode_type, ArgReplacer, PY3
+from msgpackrpc.tornado.concurrent import TracebackFuture, return_future, chain_future
+from msgpackrpc.tornado import gen
+from msgpackrpc.tornado import httpclient
+from msgpackrpc.tornado import escape
+from msgpackrpc.tornado.httputil import url_concat
+from msgpackrpc.tornado.log import gen_log
+from msgpackrpc.tornado.stack_context import ExceptionStackContext
+from msgpackrpc.tornado.util import unicode_type, ArgReplacer, PY3
 
 if PY3:
     import urllib.parse as urlparse
@@ -107,7 +107,7 @@ def _auth_future_to_callback(callback, future):
 
 
 def _auth_return_future(f):
-    """Similar to tornado.concurrent.return_future, but uses the auth
+    """Similar to msgpackrpc.tornado.concurrent.return_future, but uses the auth
     module's legacy callback interface.
 
     Note that when using this decorator the ``callback`` parameter
@@ -626,10 +626,10 @@ class OAuth2Mixin(object):
 
         ..testcode::
 
-            class MainHandler(tornado.web.RequestHandler,
-                              tornado.auth.FacebookGraphMixin):
-                @tornado.web.authenticated
-                @tornado.gen.coroutine
+            class MainHandler(msgpackrpc.tornado.web.RequestHandler,
+                              msgpackrpc.tornado.auth.FacebookGraphMixin):
+                @msgpackrpc.tornado.web.authenticated
+                @msgpackrpc.tornado.gen.coroutine
                 def get(self):
                     new_entry = yield self.oauth2_request(
                         "https://graph.facebook.com/me/feed",
@@ -687,7 +687,7 @@ class TwitterMixin(OAuthMixin):
     To authenticate with Twitter, register your application with
     Twitter at http://twitter.com/apps. Then copy your Consumer Key
     and Consumer Secret to the application
-    `~tornado.web.Application.settings` ``twitter_consumer_key`` and
+    `~msgpackrpc.tornado.web.Application.settings` ``twitter_consumer_key`` and
     ``twitter_consumer_secret``. Use this mixin on the handler for the
     URL you registered as your application's callback URL.
 
@@ -696,9 +696,9 @@ class TwitterMixin(OAuthMixin):
 
     .. testcode::
 
-        class TwitterLoginHandler(tornado.web.RequestHandler,
-                                  tornado.auth.TwitterMixin):
-            @tornado.gen.coroutine
+        class TwitterLoginHandler(msgpackrpc.tornado.web.RequestHandler,
+                                  msgpackrpc.tornado.auth.TwitterMixin):
+            @msgpackrpc.tornado.gen.coroutine
             def get(self):
                 if self.get_argument("oauth_token", None):
                     user = yield self.get_authenticated_user()
@@ -761,10 +761,10 @@ class TwitterMixin(OAuthMixin):
 
         .. testcode::
 
-            class MainHandler(tornado.web.RequestHandler,
-                              tornado.auth.TwitterMixin):
-                @tornado.web.authenticated
-                @tornado.gen.coroutine
+            class MainHandler(msgpackrpc.tornado.web.RequestHandler,
+                              msgpackrpc.tornado.auth.TwitterMixin):
+                @msgpackrpc.tornado.web.authenticated
+                @msgpackrpc.tornado.gen.coroutine
                 def get(self):
                     new_entry = yield self.twitter_request(
                         "/statuses/update",
@@ -870,9 +870,9 @@ class GoogleOAuth2Mixin(OAuth2Mixin):
 
         .. testcode::
 
-            class GoogleOAuth2LoginHandler(tornado.web.RequestHandler,
-                                           tornado.auth.GoogleOAuth2Mixin):
-                @tornado.gen.coroutine
+            class GoogleOAuth2LoginHandler(msgpackrpc.tornado.web.RequestHandler,
+                                           msgpackrpc.tornado.auth.GoogleOAuth2Mixin):
+                @msgpackrpc.tornado.gen.coroutine
                 def get(self):
                     if self.get_argument('code', False):
                         access = yield self.get_authenticated_user(
@@ -934,9 +934,9 @@ class FacebookGraphMixin(OAuth2Mixin):
 
         .. testcode::
 
-            class FacebookGraphLoginHandler(tornado.web.RequestHandler,
-                                            tornado.auth.FacebookGraphMixin):
-              @tornado.gen.coroutine
+            class FacebookGraphLoginHandler(msgpackrpc.tornado.web.RequestHandler,
+                                            msgpackrpc.tornado.auth.FacebookGraphMixin):
+              @msgpackrpc.tornado.gen.coroutine
               def get(self):
                   if self.get_argument("code", False):
                       user = yield self.get_authenticated_user(
@@ -1047,10 +1047,10 @@ class FacebookGraphMixin(OAuth2Mixin):
 
         ..testcode::
 
-            class MainHandler(tornado.web.RequestHandler,
-                              tornado.auth.FacebookGraphMixin):
-                @tornado.web.authenticated
-                @tornado.gen.coroutine
+            class MainHandler(msgpackrpc.tornado.web.RequestHandler,
+                              msgpackrpc.tornado.auth.FacebookGraphMixin):
+                @msgpackrpc.tornado.web.authenticated
+                @msgpackrpc.tornado.gen.coroutine
                 def get(self):
                     new_entry = yield self.facebook_request(
                         "/me/feed",

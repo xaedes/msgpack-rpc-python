@@ -4,10 +4,10 @@ import os
 import sys
 import traceback
 
-from tornado.escape import utf8, native_str, to_unicode
-from tornado.template import Template, DictLoader, ParseError, Loader
-from tornado.test.util import unittest, is_coverage_running
-from tornado.util import ObjectDict, unicode_type, PY3
+from msgpackrpc.tornado.escape import utf8, native_str, to_unicode
+from msgpackrpc.tornado.template import Template, DictLoader, ParseError, Loader
+from msgpackrpc.tornado.test.util import unittest, is_coverage_running
+from msgpackrpc.tornado.util import ObjectDict, unicode_type, PY3
 
 
 class TemplateTest(unittest.TestCase):

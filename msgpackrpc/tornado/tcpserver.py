@@ -21,13 +21,13 @@ import errno
 import os
 import socket
 
-from tornado import gen
-from tornado.log import app_log
-from tornado.ioloop import IOLoop
-from tornado.iostream import IOStream, SSLIOStream
-from tornado.netutil import bind_sockets, add_accept_handler, ssl_wrap_socket
-from tornado import process
-from tornado.util import errno_from_exception
+from msgpackrpc.tornado import gen
+from msgpackrpc.tornado.log import app_log
+from msgpackrpc.tornado.ioloop import IOLoop
+from msgpackrpc.tornado.iostream import IOStream, SSLIOStream
+from msgpackrpc.tornado.netutil import bind_sockets, add_accept_handler, ssl_wrap_socket
+from msgpackrpc.tornado import process
+from msgpackrpc.tornado.util import errno_from_exception
 
 try:
     import ssl
@@ -42,9 +42,9 @@ class TCPServer(object):
     To use `TCPServer`, define a subclass which overrides the `handle_stream`
     method. For example, a simple echo server could be defined like this::
 
-      from tornado.tcpserver import TCPServer
-      from tornado.iostream import StreamClosedError
-      from tornado import gen
+      from msgpackrpc.tornado.tcpserver import TCPServer
+      from msgpackrpc.tornado.iostream import StreamClosedError
+      from msgpackrpc.tornado import gen
 
       class EchoServer(TCPServer):
           @gen.coroutine
@@ -88,17 +88,17 @@ class TCPServer(object):
     3. `add_sockets`: advanced multi-process::
 
             sockets = bind_sockets(8888)
-            tornado.process.fork_processes(0)
+            msgpackrpc.tornado.process.fork_processes(0)
             server = TCPServer()
             server.add_sockets(sockets)
             IOLoop.current().start()
 
        The `add_sockets` interface is more complicated, but it can be
-       used with `tornado.process.fork_processes` to give you more
+       used with `msgpackrpc.tornado.process.fork_processes` to give you more
        flexibility in when the fork happens.  `add_sockets` can
        also be used in single-process servers if you want to create
        your listening sockets in some way other than
-       `~tornado.netutil.bind_sockets`.
+       `~msgpackrpc.tornado.netutil.bind_sockets`.
 
     .. versionadded:: 3.1
        The ``max_buffer_size`` argument.
@@ -146,9 +146,9 @@ class TCPServer(object):
         """Makes this server start accepting connections on the given sockets.
 
         The ``sockets`` parameter is a list of socket objects such as
-        those returned by `~tornado.netutil.bind_sockets`.
+        those returned by `~msgpackrpc.tornado.netutil.bind_sockets`.
         `add_sockets` is typically used in combination with that
-        method and `tornado.process.fork_processes` to provide greater
+        method and `msgpackrpc.tornado.process.fork_processes` to provide greater
         control over the initialization of a multi-process server.
         """
         if self.io_loop is None:
@@ -210,7 +210,7 @@ class TCPServer(object):
         between any server code.
 
         Note that multiple processes are not compatible with the autoreload
-        module (or the ``autoreload=True`` option to `tornado.web.Application`
+        module (or the ``autoreload=True`` option to `msgpackrpc.tornado.web.Application`
         which defaults to True when ``debug=True``).
         When using multiple processes, no IOLoops can be created or
         referenced until after the call to ``TCPServer.start(n)``.

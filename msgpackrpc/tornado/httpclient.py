@@ -35,7 +35,7 @@ and comments in curl_httpclient.py).
 
 To select ``curl_httpclient``, call `AsyncHTTPClient.configure` at startup::
 
-    AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient")
+    AsyncHTTPClient.configure("msgpackrpc.tornado.curl_httpclient.CurlAsyncHTTPClient")
 """
 
 from __future__ import absolute_import, division, print_function
@@ -44,11 +44,11 @@ import functools
 import time
 import weakref
 
-from tornado.concurrent import TracebackFuture
-from tornado.escape import utf8, native_str
-from tornado import httputil, stack_context
-from tornado.ioloop import IOLoop
-from tornado.util import Configurable
+from msgpackrpc.tornado.concurrent import TracebackFuture
+from msgpackrpc.tornado.escape import utf8, native_str
+from msgpackrpc.tornado import httputil, stack_context
+from msgpackrpc.tornado.ioloop import IOLoop
+from msgpackrpc.tornado.util import Configurable
 
 
 class HTTPClient(object):
@@ -146,7 +146,7 @@ class AsyncHTTPClient(Configurable):
 
     @classmethod
     def configurable_default(cls):
-        from tornado.simple_httpclient import SimpleAsyncHTTPClient
+        from msgpackrpc.tornado.simple_httpclient import SimpleAsyncHTTPClient
         return SimpleAsyncHTTPClient
 
     @classmethod
@@ -281,7 +281,7 @@ class AsyncHTTPClient(Configurable):
 
         Example::
 
-           AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient")
+           AsyncHTTPClient.configure("msgpackrpc.tornado.curl_httpclient.CurlAsyncHTTPClient")
         """
         super(AsyncHTTPClient, cls).configure(impl, **kwargs)
 
@@ -321,7 +321,7 @@ class HTTPRequest(object):
         :arg string url: URL to fetch
         :arg string method: HTTP method, e.g. "GET" or "POST"
         :arg headers: Additional HTTP headers to pass on the request
-        :type headers: `~tornado.httputil.HTTPHeaders` or `dict`
+        :type headers: `~msgpackrpc.tornado.httputil.HTTPHeaders` or `dict`
         :arg body: HTTP request body as a string (byte or unicode; if unicode
            the utf-8 encoding will be used)
         :arg body_producer: Callable used for lazy/asynchronous request bodies.
@@ -531,7 +531,7 @@ class HTTPResponse(object):
 
     * reason: human-readable reason phrase describing the status code
 
-    * headers: `tornado.httputil.HTTPHeaders` object
+    * headers: `msgpackrpc.tornado.httputil.HTTPHeaders` object
 
     * effective_url: final location of the resource after following any
       redirects
@@ -649,7 +649,7 @@ class _RequestProxy(object):
 
 
 def main():
-    from tornado.options import define, options, parse_command_line
+    from msgpackrpc.tornado.options import define, options, parse_command_line
     define("print_headers", type=bool, default=False)
     define("print_body", type=bool, default=True)
     define("follow_redirects", type=bool, default=True)

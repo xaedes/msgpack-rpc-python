@@ -25,7 +25,7 @@ from __future__ import absolute_import, division, print_function
 import json
 import re
 
-from tornado.util import PY3, unicode_type, basestring_type
+from msgpackrpc.tornado.util import PY3, unicode_type, basestring_type
 
 if PY3:
     from urllib.parse import parse_qs as _parse_qs
@@ -272,7 +272,7 @@ def recursive_unicode(obj):
 # but it gets all exponential on certain patterns (such as too many trailing
 # dots), causing the regex matcher to never return.
 # This regex should avoid those problems.
-# Use to_unicode instead of tornado.util.u - we don't want backslashes getting
+# Use to_unicode instead of msgpackrpc.tornado.util.u - we don't want backslashes getting
 # processed as escapes.
 _URL_RE = re.compile(to_unicode(r"""\b((?:([\w-]+):(/{1,3})|www[.])(?:(?:(?:[^\s&()]|&amp;|&quot;)*(?:[^!"#$%&'()*+,.:;<=>?@\[\]^`{|}~\s]))|(?:\((?:[^\s&()]|&amp;|&quot;)*\)))+)"""))
 

@@ -2,10 +2,10 @@
 
 from __future__ import absolute_import, division, print_function
 
-from tornado import gen, ioloop
-from tornado.log import app_log
-from tornado.testing import AsyncTestCase, gen_test, ExpectLog
-from tornado.test.util import unittest, skipBefore35, exec_test
+from msgpackrpc.tornado import gen, ioloop
+from msgpackrpc.tornado.log import app_log
+from msgpackrpc.tornado.testing import AsyncTestCase, gen_test, ExpectLog
+from msgpackrpc.tornado.test.util import unittest, skipBefore35, exec_test
 import contextlib
 import os
 import traceback

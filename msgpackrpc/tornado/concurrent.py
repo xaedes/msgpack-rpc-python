@@ -29,9 +29,9 @@ import textwrap
 import traceback
 import sys
 
-from tornado.log import app_log
-from tornado.stack_context import ExceptionStackContext, wrap
-from tornado.util import raise_exc_info, ArgReplacer, is_finalizing
+from msgpackrpc.tornado.log import app_log
+from msgpackrpc.tornado.stack_context import ExceptionStackContext, wrap
+from msgpackrpc.tornado.util import raise_exc_info, ArgReplacer, is_finalizing
 
 try:
     from concurrent import futures
@@ -138,7 +138,7 @@ class Future(object):
     Tornado they are normally used with `.IOLoop.add_future` or by
     yielding them in a `.gen.coroutine`.
 
-    `tornado.concurrent.Future` is similar to
+    `msgpackrpc.tornado.concurrent.Future` is similar to
     `concurrent.futures.Future`, but not thread-safe (and therefore
     faster for use with single-threaded event loops).
 
@@ -150,7 +150,7 @@ class Future(object):
     ``TracebackFuture``, which is now a deprecated alias for this class.
 
     .. versionchanged:: 4.0
-       `tornado.concurrent.Future` is always a thread-unsafe ``Future``
+       `msgpackrpc.tornado.concurrent.Future` is always a thread-unsafe ``Future``
        with support for the ``exc_info`` methods.  Previously it would
        be an alias for the thread-safe `concurrent.futures.Future`
        if that package was available and fall back to the thread-unsafe

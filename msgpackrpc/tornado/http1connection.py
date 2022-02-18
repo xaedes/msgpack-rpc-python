@@ -23,14 +23,14 @@ from __future__ import absolute_import, division, print_function
 
 import re
 
-from tornado.concurrent import Future
-from tornado.escape import native_str, utf8
-from tornado import gen
-from tornado import httputil
-from tornado import iostream
-from tornado.log import gen_log, app_log
-from tornado import stack_context
-from tornado.util import GzipDecompressor, PY3
+from msgpackrpc.tornado.concurrent import Future
+from msgpackrpc.tornado.escape import native_str, utf8
+from msgpackrpc.tornado import gen
+from msgpackrpc.tornado import httputil
+from msgpackrpc.tornado import iostream
+from msgpackrpc.tornado.log import gen_log, app_log
+from msgpackrpc.tornado import stack_context
+from msgpackrpc.tornado.util import GzipDecompressor, PY3
 
 
 class _QuietException(Exception):

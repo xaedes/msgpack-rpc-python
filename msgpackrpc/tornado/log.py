@@ -17,15 +17,15 @@
 
 Tornado uses three logger streams:
 
-* ``tornado.access``: Per-request logging for Tornado's HTTP servers (and
+* ``msgpackrpc.tornado.access``: Per-request logging for Tornado's HTTP servers (and
   potentially other servers in the future)
-* ``tornado.application``: Logging of errors from application code (i.e.
+* ``msgpackrpc.tornado.application``: Logging of errors from application code (i.e.
   uncaught exceptions from callbacks)
-* ``tornado.general``: General-purpose logging, including any errors
+* ``msgpackrpc.tornado.general``: General-purpose logging, including any errors
   or warnings from Tornado itself.
 
 These streams may be configured independently using the standard library's
-`logging` module.  For example, you may wish to send ``tornado.access`` logs
+`logging` module.  For example, you may wish to send ``msgpackrpc.tornado.access`` logs
 to a separate file for analysis.
 """
 from __future__ import absolute_import, division, print_function
@@ -34,8 +34,8 @@ import logging
 import logging.handlers
 import sys
 
-from tornado.escape import _unicode
-from tornado.util import unicode_type, basestring_type
+from msgpackrpc.tornado.escape import _unicode
+from msgpackrpc.tornado.util import unicode_type, basestring_type
 
 try:
     import colorama
@@ -48,9 +48,9 @@ except ImportError:
     curses = None
 
 # Logger objects for internal tornado use
-access_log = logging.getLogger("tornado.access")
-app_log = logging.getLogger("tornado.application")
-gen_log = logging.getLogger("tornado.general")
+access_log = logging.getLogger("msgpackrpc.tornado.access")
+app_log = logging.getLogger("msgpackrpc.tornado.application")
+gen_log = logging.getLogger("msgpackrpc.tornado.general")
 
 
 def _stderr_supports_color():
@@ -88,7 +88,7 @@ class LogFormatter(logging.Formatter):
     * Robust against str/bytes encoding problems.
 
     This formatter is enabled automatically by
-    `tornado.options.parse_command_line` or `tornado.options.parse_config_file`
+    `msgpackrpc.tornado.options.parse_command_line` or `msgpackrpc.tornado.options.parse_config_file`
     (unless ``--logging=none`` is used).
 
     Color support on Windows versions that do not support ANSI color codes is
@@ -208,12 +208,12 @@ class LogFormatter(logging.Formatter):
 def enable_pretty_logging(options=None, logger=None):
     """Turns on formatted logging output as configured.
 
-    This is called automatically by `tornado.options.parse_command_line`
-    and `tornado.options.parse_config_file`.
+    This is called automatically by `msgpackrpc.tornado.options.parse_command_line`
+    and `msgpackrpc.tornado.options.parse_config_file`.
     """
     if options is None:
-        import tornado.options
-        options = tornado.options.options
+        import msgpackrpc.tornado.options
+        options = msgpackrpc.tornado.options.options
     if options.logging is None or options.logging.lower() == 'none':
         return
     if logger is None:
@@ -258,8 +258,8 @@ def define_logging_options(options=None):
     """
     if options is None:
         # late import to prevent cycle
-        import tornado.options
-        options = tornado.options.options
+        import msgpackrpc.tornado.options
+        options = msgpackrpc.tornado.options.options
     options.define("logging", default="info",
                    help=("Set the Python log level. If 'none', tornado won't touch the "
                          "logging configuration."),

@@ -19,7 +19,7 @@
 Each module defines its own options which are added to the global
 option namespace, e.g.::
 
-    from tornado.options import define, options
+    from msgpackrpc.tornado.options import define, options
 
     define("mysql_host", default="127.0.0.1:3306", help="Main user DB")
     define("memcache_hosts", default="127.0.0.1:11011", multiple=True,
@@ -37,15 +37,15 @@ must have been imported before the command line is parsed.
 Your ``main()`` method can parse the command line or parse a config file with
 either::
 
-    tornado.options.parse_command_line()
+    msgpackrpc.tornado.options.parse_command_line()
     # or
-    tornado.options.parse_config_file("/etc/server.conf")
+    msgpackrpc.tornado.options.parse_config_file("/etc/server.conf")
 
 .. note:
 
-   When using tornado.options.parse_command_line or
-   tornado.options.parse_config_file, the only options that are set are
-   ones that were previously defined with tornado.options.define.
+   When using msgpackrpc.tornado.options.parse_command_line or
+   msgpackrpc.tornado.options.parse_config_file, the only options that are set are
+   ones that were previously defined with msgpackrpc.tornado.options.define.
 
 Command line formats are what you would expect (``--myoption=myvalue``).
 Config files are just Python files. Global names become options, e.g.::
@@ -58,7 +58,7 @@ We support `datetimes <datetime.datetime>`, `timedeltas
 `define`). We also accept multi-value options. See the documentation for
 `define()` below.
 
-`tornado.options.options` is a singleton instance of `OptionParser`, and
+`msgpackrpc.tornado.options.options` is a singleton instance of `OptionParser`, and
 the top-level functions in this module (`define`, `parse_command_line`, etc)
 simply call methods on it.  You may create additional `OptionParser`
 instances to define isolated sets of options, such as for subcommands.
@@ -71,7 +71,7 @@ instances to define isolated sets of options, such as for subcommands.
    alone so you can manage it yourself, either pass ``--logging=none``
    on the command line or do the following to disable it in code::
 
-       from tornado.options import options, parse_command_line
+       from msgpackrpc.tornado.options import options, parse_command_line
        options.logging = None
        parse_command_line()
 
@@ -91,10 +91,10 @@ import sys
 import os
 import textwrap
 
-from tornado.escape import _unicode, native_str
-from tornado.log import define_logging_options
-from tornado import stack_context
-from tornado.util import basestring_type, exec_in
+from msgpackrpc.tornado.escape import _unicode, native_str
+from msgpackrpc.tornado.log import define_logging_options
+from msgpackrpc.tornado import stack_context
+from msgpackrpc.tornado.util import basestring_type, exec_in
 
 
 class Error(Exception):
@@ -105,7 +105,7 @@ class Error(Exception):
 class OptionParser(object):
     """A collection of options, a dictionary with object-like access.
 
-    Normally accessed via static functions in the `tornado.options` module,
+    Normally accessed via static functions in the `msgpackrpc.tornado.options` module,
     which reference a global instance.
     """
     def __init__(self):
@@ -162,7 +162,7 @@ class OptionParser(object):
 
         Useful for copying options into Application settings::
 
-            from tornado.options import define, parse_command_line, options
+            from msgpackrpc.tornado.options import define, parse_command_line, options
 
             define('template_path', group='application')
             define('static_path', group='application')

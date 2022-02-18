@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 from __future__ import absolute_import, division, print_function
 
-from tornado.escape import utf8, _unicode
-from tornado import gen
-from tornado.httpclient import HTTPResponse, HTTPError, AsyncHTTPClient, main, _RequestProxy
-from tornado import httputil
-from tornado.http1connection import HTTP1Connection, HTTP1ConnectionParameters
-from tornado.iostream import StreamClosedError
-from tornado.netutil import Resolver, OverrideResolver, _client_ssl_defaults
-from tornado.log import gen_log
-from tornado import stack_context
-from tornado.tcpclient import TCPClient
-from tornado.util import PY3
+from msgpackrpc.tornado.escape import utf8, _unicode
+from msgpackrpc.tornado import gen
+from msgpackrpc.tornado.httpclient import HTTPResponse, HTTPError, AsyncHTTPClient, main, _RequestProxy
+from msgpackrpc.tornado import httputil
+from msgpackrpc.tornado.http1connection import HTTP1Connection, HTTP1ConnectionParameters
+from msgpackrpc.tornado.iostream import StreamClosedError
+from msgpackrpc.tornado.netutil import Resolver, OverrideResolver, _client_ssl_defaults
+from msgpackrpc.tornado.log import gen_log
+from msgpackrpc.tornado import stack_context
+from msgpackrpc.tornado.tcpclient import TCPClient
+from msgpackrpc.tornado.util import PY3
 
 import base64
 import collections

@@ -4,10 +4,10 @@ import re
 import sys
 import datetime
 
-import tornado.escape
-from tornado.escape import utf8
-from tornado.util import raise_exc_info, Configurable, exec_in, ArgReplacer, timedelta_to_seconds, import_object, re_unescape, is_finalizing, PY3
-from tornado.test.util import unittest
+import msgpackrpc.tornado.escape
+from msgpackrpc.tornado.escape import utf8
+from msgpackrpc.tornado.util import raise_exc_info, Configurable, exec_in, ArgReplacer, timedelta_to_seconds, import_object, re_unescape, is_finalizing, PY3
+from msgpackrpc.tornado.test.util import unittest
 
 if PY3:
     from io import StringIO
@@ -187,19 +187,19 @@ class TimedeltaToSecondsTest(unittest.TestCase):
 
 class ImportObjectTest(unittest.TestCase):
     def test_import_member(self):
-        self.assertIs(import_object('tornado.escape.utf8'), utf8)
+        self.assertIs(import_object('msgpackrpc.tornado.escape.utf8'), utf8)
 
     def test_import_member_unicode(self):
-        self.assertIs(import_object(u'tornado.escape.utf8'), utf8)
+        self.assertIs(import_object(u'msgpackrpc.tornado.escape.utf8'), utf8)
 
     def test_import_module(self):
-        self.assertIs(import_object('tornado.escape'), tornado.escape)
+        self.assertIs(import_object('msgpackrpc.tornado.escape'), msgpackrpc.tornado.escape)
 
     def test_import_module_unicode(self):
         # The internal implementation of __import__ differs depending on
         # whether the thing being imported is a module or not.
         # This variant requires a byte string in python 2.
-        self.assertIs(import_object(u'tornado.escape'), tornado.escape)
+        self.assertIs(import_object(u'msgpackrpc.tornado.escape'), msgpackrpc.tornado.escape)
 
 
 class ReUnescapeTest(unittest.TestCase):

@@ -44,11 +44,11 @@ import time
 import traceback
 import math
 
-from tornado.concurrent import TracebackFuture, is_future
-from tornado.log import app_log, gen_log
-from tornado.platform.auto import set_close_exec, Waker
-from tornado import stack_context
-from tornado.util import PY3, Configurable, errno_from_exception, timedelta_to_seconds
+from msgpackrpc.tornado.concurrent import TracebackFuture, is_future
+from msgpackrpc.tornado.log import app_log, gen_log
+from msgpackrpc.tornado.platform.auto import set_close_exec, Waker
+from msgpackrpc.tornado import stack_context
+from msgpackrpc.tornado.util import PY3, Configurable, errno_from_exception, timedelta_to_seconds
 
 try:
     import signal
@@ -84,7 +84,7 @@ class IOLoop(Configurable):
 
         import errno
         import functools
-        import tornado.ioloop
+        import msgpackrpc.tornado.ioloop
         import socket
 
         def connection_ready(sock, fd, events):
@@ -105,7 +105,7 @@ class IOLoop(Configurable):
             sock.bind(("", port))
             sock.listen(128)
 
-            io_loop = tornado.ioloop.IOLoop.current()
+            io_loop = msgpackrpc.tornado.ioloop.IOLoop.current()
             callback = functools.partial(connection_ready, sock)
             io_loop.add_handler(sock.fileno(), callback, io_loop.READ)
             io_loop.start()
@@ -176,7 +176,7 @@ class IOLoop(Configurable):
 
         When using an `IOLoop` subclass, `install` must be called prior
         to creating any objects that implicitly create their own
-        `IOLoop` (e.g., :class:`tornado.httpclient.AsyncHTTPClient`).
+        `IOLoop` (e.g., :class:`msgpackrpc.tornado.httpclient.AsyncHTTPClient`).
         """
         assert not IOLoop.initialized()
         IOLoop._instance = self
@@ -240,13 +240,13 @@ class IOLoop(Configurable):
     @classmethod
     def configurable_default(cls):
         if hasattr(select, "epoll"):
-            from tornado.platform.epoll import EPollIOLoop
+            from msgpackrpc.tornado.platform.epoll import EPollIOLoop
             return EPollIOLoop
         if hasattr(select, "kqueue"):
             # Python 2.6+ on BSD or Mac
-            from tornado.platform.kqueue import KQueueIOLoop
+            from msgpackrpc.tornado.platform.kqueue import KQueueIOLoop
             return KQueueIOLoop
-        from tornado.platform.select import SelectIOLoop
+        from msgpackrpc.tornado.platform.select import SelectIOLoop
         return SelectIOLoop
 
     def initialize(self, make_current=None):
@@ -374,8 +374,8 @@ class IOLoop(Configurable):
         This method should be called from start() in subclasses.
         """
         if not any([logging.getLogger().handlers,
-                    logging.getLogger('tornado').handlers,
-                    logging.getLogger('tornado.application').handlers]):
+                    logging.getLogger('msgpackrpc.tornado').handlers,
+                    logging.getLogger('msgpackrpc.tornado.application').handlers]):
             logging.basicConfig()
 
     def stop(self):
@@ -416,7 +416,7 @@ class IOLoop(Configurable):
         a maximum duration for the function.  If the timeout expires,
         a `TimeoutError` is raised.
 
-        This method is useful in conjunction with `tornado.gen.coroutine`
+        This method is useful in conjunction with `msgpackrpc.tornado.gen.coroutine`
         to allow asynchronous calls in a ``main()`` function::
 
             @gen.coroutine
@@ -435,7 +435,7 @@ class IOLoop(Configurable):
             try:
                 result = func()
                 if result is not None:
-                    from tornado.gen import convert_yielded
+                    from msgpackrpc.tornado.gen import convert_yielded
                     result = convert_yielded(result)
             except Exception:
                 future_cell[0] = TracebackFuture()
@@ -604,7 +604,7 @@ class IOLoop(Configurable):
         try:
             ret = callback()
             if ret is not None:
-                from tornado import gen
+                from msgpackrpc.tornado import gen
                 # Functions that return Futures typically swallow all
                 # exceptions and store them in the Future.  If a Future
                 # makes it out to the IOLoop, ensure its exception (if any)
@@ -682,9 +682,9 @@ class IOLoop(Configurable):
 class PollIOLoop(IOLoop):
     """Base class for IOLoops built around a select-like function.
 
-    For concrete implementations, see `tornado.platform.epoll.EPollIOLoop`
-    (Linux), `tornado.platform.kqueue.KQueueIOLoop` (BSD and Mac), or
-    `tornado.platform.select.SelectIOLoop` (all platforms).
+    For concrete implementations, see `msgpackrpc.tornado.platform.epoll.EPollIOLoop`
+    (Linux), `msgpackrpc.tornado.platform.kqueue.KQueueIOLoop` (BSD and Mac), or
+    `msgpackrpc.tornado.platform.select.SelectIOLoop` (all platforms).
     """
     def initialize(self, impl, time_func=None, **kwargs):
         super(PollIOLoop, self).initialize(**kwargs)

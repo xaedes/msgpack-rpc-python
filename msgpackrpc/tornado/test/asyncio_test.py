@@ -12,16 +12,16 @@
 
 from __future__ import absolute_import, division, print_function
 
-from tornado import gen
-from tornado.testing import AsyncTestCase, gen_test
-from tornado.test.util import unittest, skipBefore33, skipBefore35, exec_test
+from msgpackrpc.tornado import gen
+from msgpackrpc.tornado.testing import AsyncTestCase, gen_test
+from msgpackrpc.tornado.test.util import unittest, skipBefore33, skipBefore35, exec_test
 
 try:
-    from tornado.platform.asyncio import asyncio
+    from msgpackrpc.tornado.platform.asyncio import asyncio
 except ImportError:
     asyncio = None
 else:
-    from tornado.platform.asyncio import AsyncIOLoop, to_asyncio_future
+    from msgpackrpc.tornado.platform.asyncio import AsyncIOLoop, to_asyncio_future
     # This is used in dynamically-evaluated code, so silence pyflakes.
     to_asyncio_future
 

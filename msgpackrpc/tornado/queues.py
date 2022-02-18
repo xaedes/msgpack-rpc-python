@@ -27,9 +27,9 @@ from __future__ import absolute_import, division, print_function
 import collections
 import heapq
 
-from tornado import gen, ioloop
-from tornado.concurrent import Future
-from tornado.locks import Event
+from msgpackrpc.tornado import gen, ioloop
+from msgpackrpc.tornado.concurrent import Future
+from msgpackrpc.tornado.locks import Event
 
 __all__ = ['Queue', 'PriorityQueue', 'LifoQueue', 'QueueFull', 'QueueEmpty']
 
@@ -69,9 +69,9 @@ class Queue(object):
 
     .. testcode::
 
-        from tornado import gen
-        from tornado.ioloop import IOLoop
-        from tornado.queues import Queue
+        from msgpackrpc.tornado import gen
+        from msgpackrpc.tornado.ioloop import IOLoop
+        from msgpackrpc.tornado.queues import Queue
 
         q = Queue(maxsize=2)
 
@@ -166,7 +166,7 @@ class Queue(object):
     def put(self, item, timeout=None):
         """Put an item into the queue, perhaps waiting until there is room.
 
-        Returns a Future, which raises `tornado.gen.TimeoutError` after a
+        Returns a Future, which raises `msgpackrpc.tornado.gen.TimeoutError` after a
         timeout.
         """
         try:
@@ -199,7 +199,7 @@ class Queue(object):
         """Remove and return an item from the queue.
 
         Returns a Future which resolves once an item is available, or raises
-        `tornado.gen.TimeoutError` after a timeout.
+        `msgpackrpc.tornado.gen.TimeoutError` after a timeout.
         """
         future = Future()
         try:
@@ -248,7 +248,7 @@ class Queue(object):
     def join(self, timeout=None):
         """Block until all items in the queue are processed.
 
-        Returns a Future, which raises `tornado.gen.TimeoutError` after a
+        Returns a Future, which raises `msgpackrpc.tornado.gen.TimeoutError` after a
         timeout.
         """
         return self._finished.wait(timeout)
@@ -308,7 +308,7 @@ class PriorityQueue(Queue):
 
     .. testcode::
 
-        from tornado.queues import PriorityQueue
+        from msgpackrpc.tornado.queues import PriorityQueue
 
         q = PriorityQueue()
         q.put((1, 'medium-priority item'))
@@ -340,7 +340,7 @@ class LifoQueue(Queue):
 
     .. testcode::
 
-        from tornado.queues import LifoQueue
+        from msgpackrpc.tornado.queues import LifoQueue
 
         q = LifoQueue()
         q.put(3)

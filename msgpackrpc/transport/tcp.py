@@ -1,6 +1,6 @@
 import msgpack
-from tornado import tcpserver
-from tornado.iostream import IOStream
+from msgpackrpc.tornado import tcpserver
+from msgpackrpc.tornado.iostream import IOStream
 
 import msgpackrpc.message
 from msgpackrpc.error import RPCError, TransportError

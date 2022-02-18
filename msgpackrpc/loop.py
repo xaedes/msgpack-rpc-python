@@ -1,4 +1,4 @@
-from tornado import ioloop
+from msgpackrpc.tornado import ioloop
 
 class Loop(object):
     """\

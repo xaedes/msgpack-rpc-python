@@ -21,8 +21,8 @@ MessagePack RPC for Python.
 
 This implementation uses Tornado framework as a backend.
 """,
-      packages=['msgpackrpc', 'msgpackrpc/transport'],
-      install_requires=['msgpack-python', 'tornado >= 3,<5'],
+      packages=['msgpackrpc', 'msgpackrpc/transport', 'msgpackrpc/tornado'],
+      install_requires=['msgpack-python'],
       license="Apache Software License",
       classifiers=[
           'Programming Language :: Python :: 2',

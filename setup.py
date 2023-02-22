@@ -6,6 +6,7 @@
 exec(open('msgpackrpc/_version.py').read())
 
 import platform
+import os
 
 try:
     from setuptools import setup

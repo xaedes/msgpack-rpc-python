@@ -1,6 +1,6 @@
 import socket
 
-from tornado.platform.auto import set_close_exec
+from msgpackrpc.tornado.platform.auto import set_close_exec
 
 
 class Address(object):
